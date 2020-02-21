@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
+import android.util.Patterns;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -69,6 +70,10 @@ public class signup1 extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         progressBar1.setVisibility(View.INVISIBLE);
+        inputEmail.setFocusable(true);
+        inputPassword.setFocusable(true);
+        inputRetypepass.setFocusable(true);
+        inputUsername.setFocusable(true);
     }
 
 
@@ -86,8 +91,8 @@ public class signup1 extends AppCompatActivity {
             return;
         }
 
-        if (TextUtils.isEmpty(emailInput)) {
-            Toast.makeText(getApplicationContext(), "Enter email address!", Toast.LENGTH_SHORT).show();
+        if (TextUtils.isEmpty(emailInput)&& Patterns.EMAIL_ADDRESS.matcher(emailInput).matches()) {
+            Toast.makeText(getApplicationContext(), "Enter valid email address!", Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -100,23 +105,36 @@ public class signup1 extends AppCompatActivity {
             Toast.makeText(getApplicationContext(), "Password too short, enter minimum 8 characters!", Toast.LENGTH_SHORT).show();
             return;
         }
-            if(password.equals(retypepass)==false) {
+        if(password.equals(retypepass)==false) {
                 Toast.makeText(getApplicationContext(), "Passwords do not match", Toast.LENGTH_LONG).show();
                 return;
-            }
+        }
             progressBar1.setVisibility(View.VISIBLE);
+            inputEmail.setFocusable(false);
+            inputPassword.setFocusable(false);
+            inputRetypepass.setFocusable(false);
+            inputUsername.setFocusable(false);
+
         //create user
         mAuth.createUserWithEmailAndPassword(emailInput, password)
                 .addOnCompleteListener(signup1.this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
-                            progressBar1.setVisibility(View.VISIBLE);
+                        progressBar1.setVisibility(View.VISIBLE);
+                        inputEmail.setFocusable(false);
+                        inputPassword.setFocusable(false);
+                        inputRetypepass.setFocusable(false);
+                        inputUsername.setFocusable(false);
 
                         if (!task.isSuccessful()) {
                             Toast.makeText(signup1.this,task.getException().getLocalizedMessage(),
                                     Toast.LENGTH_LONG).show();
                             Log.e("MyTag", task.getException().toString());
                             progressBar1.setVisibility(View.INVISIBLE);
+                            inputEmail.setFocusable(true);
+                            inputPassword.setFocusable(true);
+                            inputRetypepass.setFocusable(true);
+                            inputUsername.setFocusable(true);
 
 
                         } else {
