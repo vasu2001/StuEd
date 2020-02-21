@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@drawable/bg3"
+    tools:context=".Tutor_ui.TutorTopicDescription">
+
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/h1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.26" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/h2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="1.00" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/v2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="1.0" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/v1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.0" />
+
+    <TextView
+        android:id="@+id/topic"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:text="Topic"
+        android:textColor="@color/white"
+        android:textSize="30sp"
+        app:fontFamily="@font/comic"
+        app:layout_constraintBottom_toTopOf="@+id/h1"
+        app:layout_constraintEnd_toStartOf="@+id/v2"
+        app:layout_constraintHorizontal_bias="0.077"
+        app:layout_constraintStart_toStartOf="@+id/v1"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.873" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline7"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="1.0" />
+
+    <EditText
+        android:id="@+id/topicdescription"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="228dp"
+        android:fontFamily="casual"
+        android:gravity="top|left"
+        android:hint="Detailed topic description"
+        android:inputType="textMultiLine"
+        android:lines="2"
+        android:maxLines="2"
+        android:textColorHint="#000000"
+        android:textSize="18sp"
+        android:paddingLeft="15dp"
+        app:layout_constraintBottom_toTopOf="@+id/guideline7"
+        app:layout_constraintEnd_toStartOf="@+id/v2"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/v1"
+        app:layout_constraintTop_toTopOf="@+id/h1"
+        app:layout_constraintVertical_bias="0.296" />
+
+    <TextView
+        android:id="@+id/Estimated_Marks"
+        android:layout_width="144dp"
+        android:layout_height="33dp"
+        android:fontFamily="casual"
+        android:text="Estimated Marks "
+        android:textColor="#000000"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toTopOf="@+id/guideline7"
+        app:layout_constraintEnd_toStartOf="@+id/Marks"
+        app:layout_constraintHorizontal_bias="0.097"
+        app:layout_constraintStart_toStartOf="@+id/v1"
+        app:layout_constraintTop_toTopOf="@+id/h1"
+        app:layout_constraintVertical_bias="0.375" />
+
+    <EditText
+        android:id="@+id/Marks"
+        android:layout_width="75dp"
+        android:layout_height="40dp"
+        android:layout_marginEnd="44dp"
+        android:hint="Marks"
+        android:inputType="number"
+        android:textColorHint="#000000"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toTopOf="@+id/guideline7"
+        app:layout_constraintEnd_toStartOf="@+id/v2"
+        app:layout_constraintTop_toTopOf="@+id/h1"
+        app:layout_constraintVertical_bias="0.367" />
+
+    <Button
+        android:id="@+id/slotButton"
+        android:layout_width="103dp"
+        android:layout_height="44dp"
+        android:background="@drawable/next"
+        app:layout_constraintBottom_toTopOf="@+id/guideline7"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.886"
+        app:layout_constraintStart_toStartOf="@+id/v1"
+        app:layout_constraintTop_toTopOf="@+id/h1"
+        app:layout_constraintVertical_bias="0.722" />
+
+    <TextView
+        android:id="@+id/esttime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="224dp"
+        android:fontFamily="casual"
+        android:text="Estimated Time"
+        android:textColor="#000000"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/Estimated_Time"
+        app:layout_constraintHorizontal_bias="0.091"
+        app:layout_constraintStart_toStartOf="@+id/v1"
+        app:layout_constraintTop_toTopOf="@+id/h1"
+        app:layout_constraintVertical_bias="0.923" />
+
+    <EditText
+        android:id="@+id/Estimated_Time"
+        android:layout_width="75dp"
+        android:layout_height="40dp"
+        android:layout_marginEnd="44dp"
+        android:fontFamily="@font/robotor"
+        android:hint="Duration"
+        android:inputType="textPersonName"
+        android:textColorHint="#000000"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toTopOf="@+id/h2"
+        app:layout_constraintEnd_toStartOf="@+id/v2"
+        app:layout_constraintTop_toTopOf="@+id/h1"
+        app:layout_constraintVertical_bias="0.508" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

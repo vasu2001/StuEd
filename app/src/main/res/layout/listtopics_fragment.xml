@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg2"
+    tools:context=".Student_ui.dashboard">
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/subjectList2"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/h2"
+        app:layout_constraintEnd_toStartOf="@+id/v2"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/v1"
+        app:layout_constraintTop_toTopOf="@+id/h1"
+        app:layout_constraintVertical_bias="0.0"
+        tools:listitem="@layout/lists" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/h1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.28" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/h2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="1.0" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/v2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="1.0" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/v1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.0" />
+
+    <TextView
+        android:id="@+id/empty_view4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/robotor"
+        android:text="Loading..."
+        android:textSize="30sp"
+        app:layout_constraintBottom_toBottomOf="@+id/subjectList2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/subjectList2"></TextView>
+
+    <RelativeLayout
+        android:layout_width="392dp"
+        android:layout_height="206dp"
+        app:layout_constraintBottom_toTopOf="@+id/subjectList2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.473"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0">
+
+        <EditText
+            android:id="@+id/editText4"
+            android:layout_width="326dp"
+            android:layout_height="42dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginStart="31dp"
+            android:paddingLeft="15dp"
+            android:layout_marginLeft="-325dp"
+            android:layout_marginTop="137dp"
+            android:layout_marginEnd="35dp"
+            android:layout_marginBottom="27dp"
+            android:layout_toRightOf="@+id/search"
+            android:background="@drawable/edittextround"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:textSize="30sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.71000004" />
+
+        <ImageView
+            android:id="@+id/search"
+            android:layout_width="44dp"
+            android:layout_height="52dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginStart="311dp"
+            android:layout_marginTop="132dp"
+            android:layout_marginEnd="37dp"
+            android:layout_marginBottom="22dp"
+            app:srcCompat="@drawable/ic_search_black_24dp" />
+
+        <TextView
+            android:id="@+id/textView23"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginStart="33dp"
+            android:layout_marginTop="84dp"
+            android:layout_marginEnd="95dp"
+            android:layout_marginBottom="72dp"
+            android:text="Select A Topic"
+            android:textColor="@color/white"
+            android:textSize="36dp"
+            app:fontFamily="@font/raleway" />
+
+
+    </RelativeLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

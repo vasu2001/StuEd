@@ -1,0 +1,93 @@
+{
+  "project_info": {
+    "project_number": "656376251395",
+    "firebase_url": "https://startup-d757d.firebaseio.com",
+    "project_id": "startup-d757d",
+    "storage_bucket": "startup-d757d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:656376251395:android:ed8781bdf9a9eb5e8ffa36",
+        "android_client_info": {
+          "package_name": "com.example.nnnnn"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "656376251395-f89vf105db01gjqsrsn3anjde5iudmhs.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.nnnnn",
+            "certificate_hash": "f2a59d9cd6a036f95d50a005ddb5677ab9754f19"
+          }
+        },
+        {
+          "client_id": "656376251395-38grp9nvski5u88qkejqe1emtv8g3o3n.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.nnnnn",
+            "certificate_hash": "6068634fdcadd20793a6beeaf9bf7de735e3f74e"
+          }
+        },
+        {
+          "client_id": "656376251395-52fhc204imfgph03oqc4asl44mnr32j0.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.nnnnn",
+            "certificate_hash": "8403ebfd21f3654519835ff92a044aeb79dc315b"
+          }
+        },
+        {
+          "client_id": "656376251395-5jpuvti5ag4dv65mcjfclsb21q0abddh.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDn9UgxUhf_E0FaTAfUO8lfKjfCp4VhzVs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "656376251395-5jpuvti5ag4dv65mcjfclsb21q0abddh.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:656376251395:android:efe314c3db19d33e8ffa36",
+        "android_client_info": {
+          "package_name": "com.stued.StuEd"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "656376251395-5jpuvti5ag4dv65mcjfclsb21q0abddh.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDn9UgxUhf_E0FaTAfUO8lfKjfCp4VhzVs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "656376251395-5jpuvti5ag4dv65mcjfclsb21q0abddh.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

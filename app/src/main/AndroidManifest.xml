@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.stued.StuEd">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/logoiconsquare"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/logoicon"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme"
+        tools:ignore="AllowBackup,GoogleAppIndexingWarning">
+
+
+        <receiver android:name="com.allyants.notifyme.NotificationPublisher" />
+        <receiver android:name="com.allyants.notifyme.BootNotifyMe">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+
+                <category android:name="android.intent.category.HOME" />
+            </intent-filter>
+        </receiver>
+
+        <activity android:name="com.stued.StuEd.Tutor_ui.TutorSlots"></activity>
+
+        <service
+            android:name="com.stued.StuEd.Model_Classes.MyFirebaseMessagingService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+
+        <activity android:name="com.stued.StuEd.Tutor_ui.ListOfStudents" />
+        <activity
+            android:name="com.stued.StuEd.Student_ui.TutorSlotBooked"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateVisible|adjustPan" />
+        <activity
+            android:name=".Tutor_ui.TutorAccount"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateVisible|adjustPan" />
+        <activity
+            android:name="com.stued.StuEd.Tutor_ui.TutorTopicDescription"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name="com.stued.StuEd.Tutor_ui.TutorTopic"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateVisible|adjustPan" />
+        <activity
+            android:name="com.stued.StuEd.Tutor_ui.TutorAddSlot"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateVisible|adjustPan" />
+        <activity
+            android:name="com.stued.StuEd.Tutor_ui.TutorHome"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateVisible|adjustPan" />
+        <activity
+            android:name="com.stued.StuEd.Tutor_ui.TutorDashboard"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.stued.StuEd.Student_ui.TeacherDescription"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateVisible|adjustPan" />
+        <activity
+            android:name="com.stued.StuEd.Login_and_signup.forgetPassword"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.stued.StuEd.Login_and_signup.Splashscreen"
+            android:noHistory="true"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.stued.StuEd.Login_and_signup.signup2"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.stued.StuEd.Login_and_signup.signup1"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.stued.StuEd.Student_ui.dashboard"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateVisible|adjustPan" />
+        <activity
+            android:name="com.stued.StuEd.Login_and_signup.MainActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateVisible|adjustPan">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <meta-data
+            android:name="com.razorpay.ApiKey"
+            android:value="rzp_test_BYioqS3Y341Ydp" />
+    </application>
+
+</manifest>

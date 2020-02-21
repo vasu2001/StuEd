@@ -1,0 +1,43 @@
+<resources>
+    <string name="app_name">StuEd</string>
+    <string name="title_activity_dashboard1">Dashboard1</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
+    <string name="title_activity_dashboard">dashboard</string>
+    <string name="home">home</string>
+    <string name="search">Search</string>
+    <string name="account">Account</string>
+    <string name="minimum_password">Password too short, enter minimum 6 characters!</string>
+    <string name="auth_failed">Authentication failed, check your email and password or register</string>
+    <string name="bookedslot">bookedslot</string>
+    <string name="BookedSlot">BookedSlot</string>
+    <string name="default_notification_channel_id">stued Channel</string>
+    <string-array name="Branch">
+        <item>ECE</item>
+        <item>CSE</item>
+        <item>IT</item>
+        <item>Biotech</item>
+    </string-array>
+    <string-array name="Subjects">
+        <item>Maths</item>
+        <item>English</item>
+        <item>SDF</item>
+        <item>Physics</item>
+    </string-array>
+    <string-array name="collegename">
+        <item>JIIT</item>
+
+    </string-array>
+
+    <string-array name="Sem">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
+    </string-array>
+</resources>

@@ -1,0 +1,31 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">#19194E</item>
+        <item name="colorPrimaryDark">#19194E</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:textColorHint">@color/white</item>
+    </style>
+
+    <style name="password">
+        <item name="android:textSize">20sp</item>
+    </style>
+
+    <style name="username">
+        <item name="android:textSize">20sp</item>
+    </style>
+
+    <style name="Divider">
+        <item name="android:background">#000000</item> //you can give your color here. that will change all divider color in your app.
+    </style>
+
+    <style name="Divider.Horizontal" parent="Divider">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">1dp</item> // You can change thickness here.
+
+    </style>
+
+
+</resources>

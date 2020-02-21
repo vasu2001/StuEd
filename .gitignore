@@ -1,0 +1,17 @@
+*.iml
+.gradle
+/local.properties
+/.idea/caches
+/.idea/libraries
+/.idea/modules.xml
+/.idea/workspace.xml
+/.idea/navEditor.xml
+/.idea/assetWizardSettings.xml
+.DS_Store
+/build
+/captures
+.externalNativeBuild
+.cxx
+app/src/main/res/layout/tutor_settings_fragment.xml
+app/src/main/res/layout/usernameeditdialog.xml
+app/src/main/java/com/example/nnnnn/Student_ui/SettingsFragment.java

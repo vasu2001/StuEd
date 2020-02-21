@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="75dp"
+    android:layout_marginTop="5dp"
+    android:background="@drawable/testt"
+    android:orientation="horizontal"
+    android:id="@+id/pantx">
+
+
+    <TextView
+        android:id="@+id/subjectName"
+        android:layout_width="141dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_weight="1"
+        android:ellipsize="marquee"
+        android:focusableInTouchMode="true"
+        android:fontFamily="@font/raleway"
+        android:marqueeRepeatLimit="marquee_forever"
+        android:layout_marginLeft="85dp"
+        android:paddingLeft="15dp"
+        android:scrollHorizontally="true"
+        android:singleLine="true"
+        android:text="Maths"
+        android:textColor="#000000"
+        android:textSize="24sp" />
+
+    <RatingBar
+        android:id="@+id/ratingBar2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginRight="8dp"
+        android:isIndicator="true"
+        android:numStars="1"
+        android:rating="2.7"
+        android:stepSize="0.1"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/subjectName"
+        app:layout_constraintHorizontal_bias="0.78"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.29000002" />
+
+    <TextView
+        android:id="@+id/currentRating"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:layout_marginRight="10dp"
+        android:layout_weight="1"
+        android:text="4.5/10"
+        android:textSize="18sp" />
+
+</LinearLayout>

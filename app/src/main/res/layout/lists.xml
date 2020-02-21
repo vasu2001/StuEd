@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/pant"
+    android:layout_width="match_parent"
+    android:layout_height="75dp"
+    android:layout_marginTop="5dp"
+    android:background="@drawable/test"
+    android:orientation="horizontal">
+
+
+    <TextView
+        android:id="@+id/subjectName"
+        android:layout_width="332dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginLeft="85dp"
+        android:layout_weight="1"
+        android:ellipsize="marquee"
+        android:focusable="false"
+        android:focusableInTouchMode="true"
+        android:marqueeRepeatLimit="marquee_forever"
+
+        android:paddingLeft="15dp"
+        android:scrollHorizontally="true"
+        android:singleLine="true"
+        android:text="Loading..."
+        android:textColor="#000000"
+        android:textSize="24sp"
+        app:fontFamily="@font/robotor" />
+
+</LinearLayout>
