@@ -78,16 +78,13 @@ public class signup2 extends AppCompatActivity implements View.OnClickListener {
                 mVerficationInProgress=false;
                 linkuser(Credential);
                 addphoneno(mPhonenoField.getText().toString());
-                progressBar.setVisibility(View.INVISIBLE);
-                motp.setFocusable(true);
-                mPhonenoField.setFocusable(true);
+                enableEdittext();
+
             }
 
             @Override
             public void onVerificationFailed(@NonNull FirebaseException e) {
-                progressBar.setVisibility(View.INVISIBLE);
-                motp.setFocusable(true);
-                mPhonenoField.setFocusable(true);
+                enableEdittext();
                 Log.w(TAG,"onVerificationFailed:",e);
                 mVerficationInProgress=false;
                 if(e instanceof FirebaseAuthInvalidCredentialsException)
@@ -108,9 +105,7 @@ public class signup2 extends AppCompatActivity implements View.OnClickListener {
                 Toast.makeText(signup2.this,"Code Sent",Toast.LENGTH_LONG).show();
                 mVerificationId=s;
                 mResendToken=forceResendingToken;
-                progressBar.setVisibility(View.INVISIBLE);
-                motp.setFocusable(true);
-                mPhonenoField.setFocusable(true);
+              enableEdittext();
             }
         };
 
@@ -126,9 +121,7 @@ public class signup2 extends AppCompatActivity implements View.OnClickListener {
     @Override
     protected void onResume() {
         super.onResume();
-        progressBar.setVisibility(View.INVISIBLE);
-        motp.setFocusable(true);
-        mPhonenoField.setFocusable(true);
+enableEdittext();
     }
 
     @Override
@@ -168,14 +161,10 @@ public class signup2 extends AppCompatActivity implements View.OnClickListener {
 
     private void verifyPhoneNumberWithCode(String verificationId, String code) {
 
-        progressBar.setVisibility(View.VISIBLE);
-        motp.setFocusable(false);
-        mPhonenoField.setFocusable(false);
+        disableEdittext();
         if(verificationId==null || code==null){
             Toast.makeText(this,"Send the OTP",Toast.LENGTH_SHORT).show();
-            progressBar.setVisibility(View.INVISIBLE);
-            motp.setFocusable(true);
-            mPhonenoField.setFocusable(true);
+ enableEdittext();
             return;
         }
         PhoneAuthCredential credential = PhoneAuthProvider.getCredential(verificationId, code);
@@ -184,9 +173,7 @@ public class signup2 extends AppCompatActivity implements View.OnClickListener {
     }
     private void startPhoneNumberVerification(String phoneNumber)
     {
-        progressBar.setVisibility(View.VISIBLE);
-        motp.setFocusable(false);
-        mPhonenoField.setFocusable(false);
+      disableEdittext();
         PhoneAuthProvider.getInstance().verifyPhoneNumber(
                 phoneNumber,
                 60,
@@ -199,9 +186,7 @@ public class signup2 extends AppCompatActivity implements View.OnClickListener {
 
     private void resendVerificationCode(String phoneno,PhoneAuthProvider.ForceResendingToken Token)
     {
-        progressBar.setVisibility(View.VISIBLE);
-        motp.setFocusable(false);
-        mPhonenoField.setFocusable(false);
+        disableEdittext();
         PhoneAuthProvider.getInstance().verifyPhoneNumber(
                 phoneno,
                 60,
@@ -214,9 +199,7 @@ public class signup2 extends AppCompatActivity implements View.OnClickListener {
 
     public void linkuser(PhoneAuthCredential credential)
     {
-        progressBar.setVisibility(View.VISIBLE);
-        motp.setFocusable(false);
-        mPhonenoField.setFocusable(false);
+    disableEdittext();
         final Intent intent8=new Intent(this, dashboard.class);
         mAuth.getCurrentUser().linkWithCredential(credential)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
@@ -226,15 +209,11 @@ public class signup2 extends AppCompatActivity implements View.OnClickListener {
                             Log.d(TAG, "linkWithCredential:success");
                             addphoneno(mPhonenoField.getText().toString());
                             FirebaseUser user = task.getResult().getUser();
-                            progressBar.setVisibility(View.INVISIBLE);
-                            motp.setFocusable(true);
-                            mPhonenoField.setFocusable(true);
+                       enableEdittext();
                             startActivity(intent8);
 
                         } else {
-                            progressBar.setVisibility(View.INVISIBLE);
-                            motp.setFocusable(true);
-                            mPhonenoField.setFocusable(true);
+                           enableEdittext();
                             Log.w(TAG, "linkWithCredential:failure", task.getException());
                             if (task.getException() instanceof FirebaseAuthInvalidCredentialsException) {
                                 // The verification code entered was invalid
@@ -254,7 +233,19 @@ public void addphoneno(final String phoneno)
             .child(FirebaseAuth.getInstance().getCurrentUser().getUid());
     addphone.child("PhoneNo").setValue(phoneno);
 }
+    private void enableEdittext()
+    {
+        progressBar.setVisibility(View.INVISIBLE);
+        motp.setEnabled(true);
+        mPhonenoField.setEnabled(true);
 
+    }
+    private void disableEdittext()
+    {
+        progressBar.setVisibility(View.VISIBLE);
+        motp.setEnabled(false);
+        mPhonenoField.setEnabled(false);
+    }
     @Override
     public void onClick(View view) {
 

@@ -94,7 +94,6 @@ public class SearchFragment extends Fragment {
                         emptyview.setText("No Slots!!");
                         recyclerView.setVisibility(View.INVISIBLE);
                         emptyview.setVisibility(View.VISIBLE);
-
                     }
                     else
                     {

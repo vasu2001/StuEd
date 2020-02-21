@@ -143,7 +143,7 @@ private DatabaseReference userLogin;
     public void firebaseAuthWithGoogle(final GoogleSignInAccount acct)
     {
 
-        progressBar5.setVisibility(View.VISIBLE);
+        disableEdittext();
        final Intent intent = new Intent(this, signup2.class);
         final String personName=acct.getDisplayName();
         final String personEmail=acct.getEmail();
@@ -155,7 +155,7 @@ private DatabaseReference userLogin;
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful())
                         {
-                            progressBar5.setVisibility(View.INVISIBLE);
+                           enableEdittext();
                             boolean newuser = task.getResult().getAdditionalUserInfo().isNewUser();
                             if(newuser) {
                                 FirebaseUser user = mAuth5.getCurrentUser();
@@ -230,6 +230,7 @@ private DatabaseReference userLogin;
                             }
                         else
                         {
+                            enableEdittext();
                             Log.w(TAG,"siginWithCredentials: failure",task.getException());
                             Toast.makeText(MainActivity.this,"Firebase Authentication failed:",Toast.LENGTH_LONG).show();
                         }
@@ -247,7 +248,7 @@ private DatabaseReference userLogin;
      public void checkcurrentuser()
          {
 
-             progressBar5.setVisibility(View.VISIBLE);
+             disableEdittext();
              //check current user
              final FirebaseUser user = mAuth5.getCurrentUser();
 
@@ -306,7 +307,7 @@ private DatabaseReference userLogin;
              else{
                  // User is signed out
                  Log.d("status=", "onAuthStateChanged:signed_out");
-                 progressBar5.setVisibility(View.INVISIBLE);
+                 enableEdittext();
                 }
 
 
@@ -320,19 +321,21 @@ private DatabaseReference userLogin;
     }
     public void login(View view)
     {
-        progressBar5.setVisibility(View.VISIBLE);
-        inputEmail.setFocusable(false);
-        inputPassword.setFocusable(false);
+      disableEdittext();
         String email44 = inputEmail.getText().toString();
         final String password44 = inputPassword.getText().toString();
 
         if (TextUtils.isEmpty(email44)) {
+
             Toast.makeText(getApplicationContext(), "Enter email address!", Toast.LENGTH_SHORT).show();
+          enableEdittext();
+
             return;
         }
 
         if (TextUtils.isEmpty(password44)) {
             Toast.makeText(getApplicationContext(), "Enter password!", Toast.LENGTH_SHORT).show();
+            enableEdittext();
             return;
         }
 
@@ -381,9 +384,7 @@ private DatabaseReference userLogin;
                             else
                             {
                                 Toast.makeText(MainActivity.this,"Please verify your email Address",Toast.LENGTH_LONG).show();
-                                progressBar5.setVisibility(View.INVISIBLE);
-                                inputEmail.setFocusable(true);
-                                inputPassword.setFocusable(true);
+                          enableEdittext();
                             }
 
                         } else
@@ -391,13 +392,23 @@ private DatabaseReference userLogin;
                             // there was an error
                             Toast.makeText(MainActivity.this, task.getException().getLocalizedMessage(),Toast.LENGTH_LONG).show();
                             Log.e("MyTag", task.getException().toString());
-                            progressBar5.setVisibility(View.INVISIBLE);
-                            inputEmail.setFocusable(true);
-                            inputPassword.setFocusable(true);
+                           enableEdittext();
                             }
                     }
                 });
     }
 
+    private void enableEdittext()
+    {
+        progressBar5.setVisibility(View.INVISIBLE);
+        inputEmail.setEnabled(true);
+        inputPassword.setEnabled(true);
+    }
+    private void disableEdittext()
+    {
+        progressBar5.setVisibility(View.VISIBLE);
+        inputEmail.setEnabled(false);
+        inputPassword.setEnabled(false);
+    }
 
 }

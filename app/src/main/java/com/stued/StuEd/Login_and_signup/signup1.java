@@ -69,13 +69,24 @@ public class signup1 extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        progressBar1.setVisibility(View.INVISIBLE);
-        inputEmail.setFocusable(true);
-        inputPassword.setFocusable(true);
-        inputRetypepass.setFocusable(true);
-        inputUsername.setFocusable(true);
+      enableEdittext();
     }
-
+    private void enableEdittext()
+    {
+        progressBar1.setVisibility(View.INVISIBLE);
+        inputEmail.setEnabled(true);
+        inputPassword.setEnabled(true);
+        inputRetypepass.setEnabled(true);
+        inputUsername.setEnabled(true);
+    }
+    private void disableEdittext()
+    {
+        progressBar1.setVisibility(View.VISIBLE);
+        inputEmail.setEnabled(false);
+        inputPassword.setEnabled(false);
+        inputRetypepass.setEnabled(false);
+        inputUsername.setEnabled(false);
+    }
 
     public void next2(View view)
     {
@@ -85,56 +96,48 @@ public class signup1 extends AppCompatActivity {
         final String username = inputUsername.getText().toString().trim();
         final String phoneno="";
         final String TeacherAc="";
-
+        disableEdittext();
         if (TextUtils.isEmpty(username)) {
             Toast.makeText(getApplicationContext(), "Enter username!", Toast.LENGTH_SHORT).show();
+            enableEdittext();
             return;
         }
 
         if (TextUtils.isEmpty(emailInput)&& Patterns.EMAIL_ADDRESS.matcher(emailInput).matches()) {
             Toast.makeText(getApplicationContext(), "Enter valid email address!", Toast.LENGTH_SHORT).show();
+            enableEdittext();
             return;
         }
 
         if (TextUtils.isEmpty(password)) {
             Toast.makeText(getApplicationContext(), "Enter password!", Toast.LENGTH_SHORT).show();
+            enableEdittext();
             return;
         }
 
         if (password.length() < 8) {
             Toast.makeText(getApplicationContext(), "Password too short, enter minimum 8 characters!", Toast.LENGTH_SHORT).show();
+            enableEdittext();
             return;
         }
         if(password.equals(retypepass)==false) {
                 Toast.makeText(getApplicationContext(), "Passwords do not match", Toast.LENGTH_LONG).show();
+            enableEdittext();
                 return;
         }
-            progressBar1.setVisibility(View.VISIBLE);
-            inputEmail.setFocusable(false);
-            inputPassword.setFocusable(false);
-            inputRetypepass.setFocusable(false);
-            inputUsername.setFocusable(false);
 
         //create user
         mAuth.createUserWithEmailAndPassword(emailInput, password)
                 .addOnCompleteListener(signup1.this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
-                        progressBar1.setVisibility(View.VISIBLE);
-                        inputEmail.setFocusable(false);
-                        inputPassword.setFocusable(false);
-                        inputRetypepass.setFocusable(false);
-                        inputUsername.setFocusable(false);
+                      disableEdittext();
 
                         if (!task.isSuccessful()) {
                             Toast.makeText(signup1.this,task.getException().getLocalizedMessage(),
                                     Toast.LENGTH_LONG).show();
                             Log.e("MyTag", task.getException().toString());
-                            progressBar1.setVisibility(View.INVISIBLE);
-                            inputEmail.setFocusable(true);
-                            inputPassword.setFocusable(true);
-                            inputRetypepass.setFocusable(true);
-                            inputUsername.setFocusable(true);
+                          enableEdittext();
 
 
                         } else {
