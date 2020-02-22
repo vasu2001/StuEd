@@ -83,6 +83,7 @@ public class signup2 extends AppCompatActivity implements View.OnClickListener {
         dialog12 = new Dialog(signup2.this);
         dialog12.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog12.setContentView(R.layout.loading_fragment);
+        dialog12.setCanceledOnTouchOutside(false);
         dialog12.cancel();
         mCallbacks = new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
             @Override
@@ -238,6 +239,7 @@ public class signup2 extends AppCompatActivity implements View.OnClickListener {
 
     private void enableEdittext() {
         dialog12.cancel();
+        dialog12.setCanceledOnTouchOutside(false);
         motp.setEnabled(true);
         mPhonenoField.setEnabled(true);
 
@@ -245,6 +247,7 @@ public class signup2 extends AppCompatActivity implements View.OnClickListener {
 
     private void disableEdittext() {
         dialog12.show();
+        dialog12.setCanceledOnTouchOutside(false);
         motp.setEnabled(false);
         mPhonenoField.setEnabled(false);
     }

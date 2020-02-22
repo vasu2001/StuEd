@@ -79,9 +79,11 @@ private DatabaseReference userLogin;
                 startActivity(intent);
             }
         });
+
         dialog=new Dialog(MainActivity.this);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.loading_fragment);
+        dialog.setCanceledOnTouchOutside(false);
         dialog.cancel();
       //  progressBar5=findViewById(R.id.progressBar5);
         final Spinner spinner=findViewById(R.id.spinner4);
@@ -404,9 +406,11 @@ private DatabaseReference userLogin;
                 });
     }
 
+
     private void enableEdittext()
     {
-        dialog.cancel();
+        dialog.dismiss();
+        dialog.setCanceledOnTouchOutside(false);
         inputEmail.setEnabled(true);
         inputPassword.setEnabled(true);
     }
@@ -414,8 +418,14 @@ private DatabaseReference userLogin;
     {
 
         dialog.show();
+        dialog.setCanceledOnTouchOutside(false);
         inputEmail.setEnabled(false);
         inputPassword.setEnabled(false);
     }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        dialog.dismiss();
+    }
 }

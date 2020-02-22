@@ -51,6 +51,7 @@ public class signup1 extends AppCompatActivity {
         dialog=new Dialog(signup1.this);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.loading_fragment);
+        dialog.setCanceledOnTouchOutside(false);
         dialog.cancel();
         final Spinner spinner=findViewById(R.id.spinner3);
         ArrayAdapter<CharSequence> adapter=ArrayAdapter.createFromResource(getBaseContext(),R.array.collegename,R.layout.spinneritem);
@@ -76,9 +77,17 @@ public class signup1 extends AppCompatActivity {
         super.onResume();
       enableEdittext();
     }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        dialog.dismiss();
+    }
+
     private void enableEdittext()
     {
         dialog.cancel();
+        dialog.setCanceledOnTouchOutside(false);
         inputEmail.setEnabled(true);
         inputPassword.setEnabled(true);
         inputRetypepass.setEnabled(true);
@@ -87,6 +96,7 @@ public class signup1 extends AppCompatActivity {
     private void disableEdittext()
     {
        dialog.show();
+        dialog.setCanceledOnTouchOutside(false);
         inputEmail.setEnabled(false);
         inputPassword.setEnabled(false);
         inputRetypepass.setEnabled(false);

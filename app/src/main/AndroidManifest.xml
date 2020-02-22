@@ -14,7 +14,8 @@
         android:roundIcon="@mipmap/logoicon"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        tools:ignore="AllowBackup,GoogleAppIndexingWarning">
+        tools:ignore="AllowBackup,GoogleAppIndexingWarning"
+        android:largeHeap="true">
 
 
         <receiver android:name="com.allyants.notifyme.NotificationPublisher" />

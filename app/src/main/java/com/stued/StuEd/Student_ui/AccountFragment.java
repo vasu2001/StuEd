@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
@@ -21,6 +22,7 @@ import androidx.fragment.app.Fragment;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.squareup.picasso.Picasso;
 import com.stued.StuEd.Model_Classes.TinyDBorderID;
 import com.stued.StuEd.R;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -36,6 +38,7 @@ import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
 import static android.app.Activity.RESULT_OK;
@@ -50,9 +53,10 @@ public class AccountFragment extends Fragment {
     private ImageView logout,editpic,profile;
     private final int PICK_IMAGE_REQUEST = 71;
     private Uri filePath;
+    private byte[] mupload;
 
     //FirebaseStorage storage;
-    StorageReference storageReference;
+    private StorageReference storageReference;
 
 
     @Nullable
@@ -96,8 +100,13 @@ public class AccountFragment extends Fragment {
             filePath = data.getData();
             try {
                 Bitmap bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), filePath);
-                profile.setImageBitmap(bitmap);
-                uploadImage();
+               // profile.setImageBitmap(bitmap);
+                ByteArrayOutputStream stream=new ByteArrayOutputStream();
+                bitmap.compress(Bitmap.CompressFormat.PNG,35,stream);
+
+              //  profile.setImageBitmap(bitmap);
+                byte[] byeArray=stream.toByteArray();
+                upload(byeArray);
             }
             catch (IOException e)
             {
@@ -105,7 +114,37 @@ public class AccountFragment extends Fragment {
             }
         }
     }
-
+    public void upload(byte[] bytes)
+    {
+        final ProgressDialog progressDialog = new ProgressDialog(v.getContext());
+        progressDialog.setTitle("Uploading...");
+        progressDialog.show();
+        StorageReference ref = storageReference.child("profileImages/"+ FirebaseAuth.getInstance().getCurrentUser().getUid());
+        UploadTask uploadTask=ref.putBytes(bytes);
+        uploadTask
+                .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                        progressDialog.dismiss();
+                        Toast.makeText(v.getContext(), "Uploaded", Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        progressDialog.dismiss();
+                        Toast.makeText(v.getContext(), "Failed "+e.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
+                        double progress = (100.0*taskSnapshot.getBytesTransferred()/taskSnapshot
+                                .getTotalByteCount());
+                        progressDialog.setMessage("Uploaded "+(int)progress+"%");
+                    }
+                });
+    }
 
     public void setValues()
     {
@@ -114,13 +153,20 @@ public class AccountFragment extends Fragment {
         userData = FirebaseDatabase.getInstance().getReference((new TinyDBorderID(getActivity())).getString("collegeName")).child("Users");
         emailAC.setText(mAuth.getCurrentUser().getEmail());
         emailAC.setSelected(true);
+        StorageReference data=storageReference.child("profileImages").child(mAuth.getCurrentUser().getUid());
+        data.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+            @Override
+            public void onSuccess(Uri uri) {
+                Picasso.get()
+                        .load(uri)
+                        .fit()
+                        .placeholder(R.drawable.usermaleicon)
+                        .noFade()
+                        .into(profile);
 
-        Glide.with(v.getContext())
-                .load(storageReference.child("profileImages").child(mAuth.getCurrentUser().getUid()))
-                .diskCacheStrategy(DiskCacheStrategy.NONE)
-                .skipMemoryCache(true)
-                .placeholder(R.drawable.usermaleicon)
-                .into(profile);
+            }
+        });
+
 
        userData.child(mAuth.getCurrentUser().getUid()).addValueEventListener(new ValueEventListener() {
             @Override
@@ -167,38 +213,6 @@ public class AccountFragment extends Fragment {
 
 
     }
-    private void uploadImage() {
 
-        if(filePath != null)
-        {
-            final ProgressDialog progressDialog = new ProgressDialog(v.getContext());
-            progressDialog.setTitle("Uploading...");
-            progressDialog.show();
-            StorageReference ref = storageReference.child("profileImages/"+ FirebaseAuth.getInstance().getCurrentUser().getUid());
-            ref.putFile(filePath)
-                    .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                        @Override
-                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                            progressDialog.dismiss();
-                            Toast.makeText(v.getContext(), "Uploaded", Toast.LENGTH_SHORT).show();
-                        }
-                    })
-                    .addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            progressDialog.dismiss();
-                            Toast.makeText(v.getContext(), "Failed "+e.getMessage(), Toast.LENGTH_SHORT).show();
-                        }
-                    })
-                    .addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
-                        @Override
-                        public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
-                            double progress = (100.0*taskSnapshot.getBytesTransferred()/taskSnapshot
-                                    .getTotalByteCount());
-                            progressDialog.setMessage("Uploaded "+(int)progress+"%");
-                        }
-                    });
-        }
-    }
 
 }
