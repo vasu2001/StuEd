@@ -5,6 +5,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -69,6 +70,16 @@ public class listTeachers extends Fragment {
                 if(getContext()!=null) {
                     RecyclerView recyclerView = view.findViewById(R.id.subjectList3);
                     recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+                    TextView emptyview = view.findViewById(R.id.empty_view5);
+                    if (teachersUID.isEmpty()) {
+                        emptyview.setText("No Topic Available!!");
+                        emptyview.setVisibility(View.VISIBLE);
+                        recyclerView.setVisibility(View.INVISIBLE);
+                    } else {
+                        emptyview.setVisibility(View.INVISIBLE);
+                        recyclerView.setVisibility(View.VISIBLE);
+                    }
+
                     TeacherProgrammingAdaptor programmingAdapter = new TeacherProgrammingAdaptor(getContext(), teachersUID, databaseReference);
                     recyclerView.setAdapter(programmingAdapter);
                 }

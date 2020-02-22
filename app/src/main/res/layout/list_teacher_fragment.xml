@@ -17,9 +17,10 @@
 
         app:layout_constraintBottom_toTopOf="@+id/h2"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/h1"
+        app:layout_constraintVertical_bias="1.0"
         tools:listitem="@layout/lists" />
 
     <androidx.constraintlayout.widget.Guideline
@@ -28,6 +29,18 @@
         android:layout_height="0dp"
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.3" />
+
+    <TextView
+        android:id="@+id/empty_view5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/robotor"
+        android:text="Loading..."
+        android:textSize="30sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/v2"
+        app:layout_constraintStart_toStartOf="@+id/subjectList3"
+        app:layout_constraintTop_toTopOf="@+id/subjectList3"></TextView>
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/h2"
