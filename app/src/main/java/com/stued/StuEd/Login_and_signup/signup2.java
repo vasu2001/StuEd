@@ -14,6 +14,10 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.ValueEventListener;
+import com.stued.StuEd.Model_Classes.Users;
 import com.stued.StuEd.R;
 import com.stued.StuEd.Model_Classes.TinyDBorderID;
 import com.stued.StuEd.Student_ui.dashboard;
@@ -46,8 +50,9 @@ public class signup2 extends AppCompatActivity implements View.OnClickListener {
     private PhoneAuthProvider.ForceResendingToken mResendToken;
     private PhoneAuthProvider.OnVerificationStateChangedCallbacks mCallbacks;
     private FirebaseAuth mAuth;
-    //private FirebaseDatabase mDatabse;
+    private DatabaseReference mDatabse;
     private boolean doubleBackToExitPressedOnce = false;
+    private int flag=0;
 
 
     @Override
@@ -61,7 +66,7 @@ public class signup2 extends AppCompatActivity implements View.OnClickListener {
         }
         progressBar=findViewById(R.id.progressBar);
         mAuth=FirebaseAuth.getInstance();
-        //mDatabse=FirebaseDatabase.getInstance();
+        mDatabse=FirebaseDatabase.getInstance().getReference((new TinyDBorderID(signup2.this)).getString("collegeName")).child("Users");
         mPhonenoField=findViewById(R.id.editText);
         motp=findViewById(R.id.editText2);
         start=findViewById(R.id.mstart);
@@ -135,13 +140,36 @@ enableEdittext();
 
     private  boolean validatePhoneNumber()
     {
-        String phoneNumber=mPhonenoField.getText().toString();
+        String phoneNumber=mPhonenoField.getText().toString().trim();
         if (TextUtils.isEmpty(phoneNumber))
         {
             mPhonenoField.setError("Invalid phone number");
             return false;
+        }else {
+            mDatabse.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                        Users user = snapshot.getValue(Users.class);
+                        if (mPhonenoField.getText().toString().equals(user.PhoneNo)) {
+                            Toast.makeText(signup2.this, "This phone number is allready linked with another account,Kindly use another phone number!!", Toast.LENGTH_LONG).show();
+                            flag = 1;
+                        }
+                    }
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+                }
+            });
+            if (flag == 1) {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
         }
-        return true;
     }
 
 

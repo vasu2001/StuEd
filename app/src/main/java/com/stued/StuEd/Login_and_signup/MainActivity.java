@@ -322,7 +322,7 @@ private DatabaseReference userLogin;
     public void login(View view)
     {
       disableEdittext();
-        String email44 = inputEmail.getText().toString();
+        String email44 = inputEmail.getText().toString().trim();
         final String password44 = inputPassword.getText().toString();
 
         if (TextUtils.isEmpty(email44)) {

@@ -12,6 +12,7 @@
  import android.widget.Button;
  import android.widget.EditText;
  import android.widget.ImageView;
+ import android.widget.ProgressBar;
  import android.widget.Toast;
 
  import androidx.annotation.NonNull;
@@ -43,6 +44,7 @@ private Button changePhoneNo,changeusername,signout;
 private FirebaseAuth auth;
 private FirebaseUser user;
 private DatabaseReference reference;
+private ProgressBar progressBar22;
      private static final String TAG="GoogleActivity";
      private GoogleSignInClient mGoogleSiginInClient;
 
@@ -57,7 +59,6 @@ private DatabaseReference reference;
         changeusername=view.findViewById(R.id.button4);
         signout=view.findViewById(R.id.signout);
 
-
         String s="656376251395-5jpuvti5ag4dv65mcjfclsb21q0abddh.apps.googleusercontent.com";
         GoogleSignInOptions gso=new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(s)
@@ -70,6 +71,7 @@ private DatabaseReference reference;
             @Override
             public void onClick(View view) {
 
+                progressBar22.setVisibility(View.VISIBLE);
                 signout.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -99,7 +101,6 @@ private DatabaseReference reference;
             @Override
             public void onClick(View view) {
                 final Dialog dialog=new Dialog(getView().getContext());
-
                 dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
                 dialog.setContentView(R.layout.dialog_edit_username);
                 dialog.show();
@@ -124,40 +125,6 @@ private DatabaseReference reference;
         });
 
 
-        changePhoneNo.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                FirebaseUser user = auth.getCurrentUser();
-                List<? extends UserInfo> providerData = user.getProviderData();
-                for (UserInfo userInfo : providerData ) {
-
-                    String providerId = userInfo.getProviderId();
-                    Log.d(TAG, "providerId = " + providerId);
-                    if (providerId.equals("phone")) {
-                        user.unlink(providerId)
-                                .addOnCompleteListener(getActivity(),
-                                        new OnCompleteListener<AuthResult>() {
-                                            @Override
-                                            public void onComplete(@NonNull Task<AuthResult> task) {
-                                                if (task.isSuccessful()) {
-                                                    // Handle error
-                                                    reference.child(auth.getCurrentUser().getUid()).child("PhoneNo").setValue("");
-                                                    Toast.makeText(getActivity(),"unlinked",Toast.LENGTH_LONG).show();
-                                                    Intent intent=new Intent(getActivity(),signup2.class);
-                                                    startActivity(intent);
-                                                }
-                                                else
-                                                {
-                                                    Toast.makeText(getActivity(),task.getException().getMessage().toString(),Toast.LENGTH_LONG).show();
-                                                }
-                                            }
-                                        });
-                    }
-
-                }
-            }
-        });
 
         Button buttonTnc = (Button)view.findViewById(R.id.tnc);
 
@@ -195,10 +162,51 @@ private DatabaseReference reference;
         return view;
     }
 
+     @Override
+     public void onResume() {
+        progressBar22.setVisibility(View.INVISIBLE);
+        super.onResume();
+     }
 
-    @Override
+     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+         progressBar22=view.findViewById(R.id.progressBar44);
+
+         changePhoneNo.setOnClickListener(new View.OnClickListener() {
+             @Override
+             public void onClick(View view) {
+                 progressBar22.setVisibility(View.VISIBLE);
+                 FirebaseUser user = auth.getCurrentUser();
+                 List<? extends UserInfo> providerData = user.getProviderData();
+                 for (UserInfo userInfo : providerData ) {
+                     String providerId = userInfo.getProviderId();
+                     Log.d(TAG, "providerId = " + providerId);
+                     if (providerId.equals("phone")) {
+                         user.unlink(providerId)
+                                 .addOnCompleteListener(getActivity(),
+                                         new OnCompleteListener<AuthResult>() {
+                                             @Override
+                                             public void onComplete(@NonNull Task<AuthResult> task) {
+                                                 if (task.isSuccessful()) {
+                                                     // Handle error
+                                                     reference.child(auth.getCurrentUser().getUid()).child("PhoneNo").setValue("");
+                                                     Toast.makeText(getActivity(),"unlinked",Toast.LENGTH_LONG).show();
+                                                     Intent intent=new Intent(getActivity(),signup2.class);
+                                                     startActivity(intent);
+                                                 }
+                                                 else
+                                                 {
+                                                     Toast.makeText(getActivity(),task.getException().getMessage().toString(),Toast.LENGTH_LONG).show();
+                                                     progressBar22.setVisibility(View.INVISIBLE);
+                                                 }
+                                             }
+                                         });
+                     }
+
+                 }
+             }
+         });
 
     }
 

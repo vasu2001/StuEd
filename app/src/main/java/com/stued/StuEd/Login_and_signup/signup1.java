@@ -91,9 +91,9 @@ public class signup1 extends AppCompatActivity {
     public void next2(View view)
     {
         final String emailInput = inputEmail.getText().toString().trim();
-        final String password = inputPassword.getText().toString().trim();
-        String retypepass=inputRetypepass.getText().toString().trim();
-        final String username = inputUsername.getText().toString().trim();
+        final String password = inputPassword.getText().toString();
+        String retypepass=inputRetypepass.getText().toString();
+        final String username = inputUsername.getText().toString();
         final String phoneno="";
         final String TeacherAc="";
         disableEdittext();

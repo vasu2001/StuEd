@@ -68,6 +68,22 @@
       },
       "oauth_client": [
         {
+          "client_id": "656376251395-2pdhdjanv0vq52j5c615dnl149uncudn.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.stued.StuEd",
+            "certificate_hash": "b0e76ce172f143321ed9fd818a68f8049f5c9e9c"
+          }
+        },
+        {
+          "client_id": "656376251395-citlrr2ag4l100budto5omnld3e6d0e4.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.stued.StuEd",
+            "certificate_hash": "d3212cbb0d167a97105f831644f11a32cceb22ac"
+          }
+        },
+        {
           "client_id": "656376251395-5jpuvti5ag4dv65mcjfclsb21q0abddh.apps.googleusercontent.com",
           "client_type": 3
         }
