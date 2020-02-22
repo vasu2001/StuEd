@@ -54,19 +54,18 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="10dp"
-
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="15dp"
+        app:fontFamily="@font/raleway"
         android:ellipsize="marquee"
         android:focusableInTouchMode="true"
-        android:gravity="center"
         android:marqueeRepeatLimit="marquee_forever"
         android:scrollHorizontally="true"
         android:singleLine="true"
         android:text="vasu kesharwani"
         android:textColor="@color/white"
         android:textSize="25sp"
-        android:textStyle="bold|italic"
+        android:textStyle="bold"
         app:layout_constraintStart_toStartOf="@+id/v1"
         app:layout_constraintTop_toTopOf="@+id/guideline99" />
 
@@ -122,7 +121,7 @@
             android:id="@+id/imageView4"
             android:layout_width="80dp"
             android:layout_height="50dp"
-            android:layout_marginLeft="30dp"
+            android:layout_marginLeft="15dp"
             android:layout_marginTop="40dp"
 
             app:srcCompat="@drawable/mail" />
@@ -131,7 +130,7 @@
             android:id="@+id/imageView5"
             android:layout_width="80dp"
             android:layout_height="50dp"
-            android:layout_marginLeft="30dp"
+            android:layout_marginLeft="15dp"
             android:layout_marginTop="140dp"
             app:srcCompat="@drawable/call" />
 
@@ -139,7 +138,7 @@
             android:id="@+id/college"
             android:layout_width="80dp"
             android:layout_height="50dp"
-            android:layout_marginLeft="30dp"
+            android:layout_marginLeft="15dp"
             android:layout_marginTop="240dp"
             app:srcCompat="@drawable/school" />
 
@@ -147,7 +146,7 @@
             android:id="@+id/textView19"
             android:layout_width="wrap_content"
             android:layout_height="35dp"
-            android:layout_marginStart="130dp"
+            android:layout_marginStart="115dp"
             android:layout_marginTop="35dp"
             android:paddingTop="10sp"
             android:text="Email"
@@ -160,7 +159,7 @@
             android:id="@+id/phoneac"
             android:layout_width="wrap_content"
             android:layout_height="35dp"
-            android:layout_marginStart="130dp"
+            android:layout_marginStart="115dp"
             android:layout_marginTop="135dp"
             android:paddingTop="10sp"
             android:text="Phone Number"
@@ -173,7 +172,7 @@
             android:id="@+id/collegename1"
             android:layout_width="wrap_content"
             android:layout_height="35dp"
-            android:layout_marginStart="130dp"
+            android:layout_marginStart="115dp"
             android:layout_marginTop="235dp"
             android:paddingTop="10sp"
             android:text="College Name"
@@ -186,7 +185,7 @@
             android:id="@+id/emailAc"
             android:layout_width="wrap_content"
             android:layout_height="35dp"
-            android:layout_marginStart="130dp"
+            android:layout_marginStart="115dp"
             android:layout_marginTop="70dp"
             android:layout_weight="1"
             android:ellipsize="marquee"
@@ -204,7 +203,7 @@
             android:id="@+id/phoneNumberac"
             android:layout_width="150dp"
             android:layout_height="35dp"
-            android:layout_marginStart="130dp"
+            android:layout_marginStart="115dp"
             android:layout_marginTop="170dp"
             android:layout_weight="1"
             android:ellipsize="marquee"
@@ -222,7 +221,7 @@
             android:id="@+id/collegename"
             android:layout_width="150dp"
             android:layout_height="35dp"
-            android:layout_marginStart="130dp"
+            android:layout_marginStart="115dp"
             android:layout_marginTop="270dp"
             android:layout_weight="1"
             android:ellipsize="marquee"
@@ -243,10 +242,10 @@
         android:layout_height="22dp"
         app:layout_constraintBottom_toTopOf="@+id/h1"
         app:layout_constraintEnd_toStartOf="@+id/v2"
-        app:layout_constraintHorizontal_bias="0.384"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/profile_picture"
         app:layout_constraintTop_toTopOf="@+id/guideline99"
-        app:layout_constraintVertical_bias="0.579"
+        app:layout_constraintVertical_bias="0.353"
         app:srcCompat="@drawable/pencil" />
 
 
