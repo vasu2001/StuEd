@@ -66,10 +66,12 @@ public class listTeachers extends Fragment {
                         }
                     });*/
                 }
-                RecyclerView recyclerView=view.findViewById(R.id.subjectList3);
-                recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-                TeacherProgrammingAdaptor programmingAdapter=new TeacherProgrammingAdaptor(getActivity(),teachersUID, databaseReference);
-                recyclerView.setAdapter(programmingAdapter);
+                if(getContext()!=null) {
+                    RecyclerView recyclerView = view.findViewById(R.id.subjectList3);
+                    recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+                    TeacherProgrammingAdaptor programmingAdapter = new TeacherProgrammingAdaptor(getContext(), teachersUID, databaseReference);
+                    recyclerView.setAdapter(programmingAdapter);
+                }
 
             }
 

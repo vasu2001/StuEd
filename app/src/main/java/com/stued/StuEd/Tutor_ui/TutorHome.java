@@ -104,9 +104,11 @@ public class TutorHome extends Fragment {
                         Log.i("attended", "onDataChange: "+slotSnapshot.child("attended").getValue(Integer.class));
                     }
                     sort(slots,attended,0,slots.size()-1);
-                    recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-                    SlotsProgrammingAdaptor programmingAdapter=new SlotsProgrammingAdaptor(v.getContext(),slots,attended);
-                    recyclerView.setAdapter(programmingAdapter);
+                    if(v.getContext()!=null) {
+                        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+                        SlotsProgrammingAdaptor programmingAdapter = new SlotsProgrammingAdaptor(v.getContext(), slots, attended);
+                        recyclerView.setAdapter(programmingAdapter);
+                    }
                 }
                 else showDialog();
             }
@@ -146,4 +148,6 @@ public class TutorHome extends Fragment {
             dialog.show();
         }
     }
+
+
 }

@@ -7,10 +7,12 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.stued.StuEd.R;
 import com.stued.StuEd.Student_ui.AccountFragment;
@@ -64,7 +66,7 @@ public class TutorDashboard extends AppCompatActivity {
 
                 case R.id.settings1:
                     selectedFragment= new SettingsFragment();
-                    fragmentTag = "FRAGMENT_SETTINGS";
+                    fragmentTag = "FRAGMENT_OTHER";
                     break;
             }
 
@@ -91,15 +93,37 @@ public class TutorDashboard extends AppCompatActivity {
         fragmentManager.addOnBackStackChangedListener(new FragmentManager.OnBackStackChangedListener() {
             @Override
             public void onBackStackChanged() {
-                int pos = -1;
+                int pos = 0;
                 Fragment currentBackStackFragment = fragmentManager.findFragmentByTag("FRAGMENT");
                 if (currentBackStackFragment instanceof TutorHome) pos = 0;
                 else if (currentBackStackFragment instanceof TutorAddSlot || currentBackStackFragment instanceof TutorTopic || currentBackStackFragment instanceof TutorTopicDescription) pos = 1;
                 else if (currentBackStackFragment instanceof AccountFragment) pos = 2;
+                else if(currentBackStackFragment instanceof  SettingsFragment) pos=3;
                 BottomNavigationView bottomNav = (BottomNavigationView) findViewById(R.id.bottomNavigationView);
-                if(pos!=-1) bottomNav.getMenu().getItem(pos).setChecked(true);
+                bottomNav.getMenu().getItem(pos).setChecked(true);
                 // If the stack decreases it means I clicked the back button
             }
         });
+    }
+
+    private boolean doubleBackToExitPressedOnce = false;
+
+    @Override
+    public void onBackPressed() {
+        if(getSupportFragmentManager().getBackStackEntryCount()!=0 || doubleBackToExitPressedOnce) {
+            super.onBackPressed();
+            return;
+        }
+
+        this.doubleBackToExitPressedOnce = true;
+        Toast.makeText(this, "Please click BACK again to exit", Toast.LENGTH_SHORT).show();
+
+        new Handler().postDelayed(new Runnable() {
+
+            @Override
+            public void run() {
+                doubleBackToExitPressedOnce=false;
+            }
+        }, 2000);
     }
 }

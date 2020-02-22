@@ -149,16 +149,17 @@ public class TeacherDescription extends Fragment {
                     if(listitem.get(listGroup).isEmpty())
                         listgroup.remove(listGroup);
                 }
-
-                adapter = new MyExpandableListAdaptor(view.getContext(), listgroup, listitem,listItemPreference,listItemVenue);
-                expandableListView.setAdapter(adapter);
-                expandableListView.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
-                    @Override
-                    public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
-                        Log.d("CLicked","worked");
-                        return false;
-                    }
-                });
+                if(view.getContext()!=null) {
+                    adapter = new MyExpandableListAdaptor(view.getContext(), listgroup, listitem, listItemPreference, listItemVenue);
+                    expandableListView.setAdapter(adapter);
+                    expandableListView.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
+                        @Override
+                        public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
+                            Log.d("CLicked", "worked");
+                            return false;
+                        }
+                    });
+                }
 
             }
 

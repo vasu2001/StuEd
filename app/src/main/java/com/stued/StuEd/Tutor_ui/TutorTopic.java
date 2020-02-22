@@ -122,40 +122,39 @@ public class TutorTopic extends Fragment
 
                 EditText editTextSearch=(EditText) view.findViewById(R.id.editText4);
                 //final listtopicadapter programmingAdapter=new listtopicadapter(getActivity(),databaseReference,topics);
-                final tlistprogAdaptor programmingAdapter=new tlistprogAdaptor(getActivity(),topics,databaseReference);
+                if(view.getContext()!=null) {
+                    final tlistprogAdaptor programmingAdapter = new tlistprogAdaptor(view.getContext(), topics, databaseReference);
 
-                editTextSearch.addTextChangedListener(new TextWatcher() {
-                    @Override
-                    public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                    editTextSearch.addTextChangedListener(new TextWatcher() {
+                        @Override
+                        public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
+                        }
+
+                        @Override
+                        public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                        }
+
+                        @Override
+                        public void afterTextChanged(Editable editable) {
+                            filter(editable.toString(), programmingAdapter);
+
+                        }
+                    });
+                    RecyclerView recyclerView = view.findViewById(R.id.subjectList2);
+                    if (topics.isEmpty()) {
+                        emptyview.setVisibility(View.VISIBLE);
+                        recyclerView.setVisibility(View.INVISIBLE);
+                    } else {
+                        emptyview.setVisibility(View.INVISIBLE);
+                        recyclerView.setVisibility(View.VISIBLE);
                     }
 
-                    @Override
-                    public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                    recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-                    }
-
-                    @Override
-                    public void afterTextChanged(Editable editable) {
-                        filter(editable.toString(),programmingAdapter);
-
-                    }
-                });
-                RecyclerView recyclerView=view.findViewById(R.id.subjectList2);
-                if(topics.isEmpty())
-                {
-                    emptyview.setVisibility(View.VISIBLE);
-                    recyclerView.setVisibility(View.INVISIBLE);
+                    recyclerView.setAdapter(programmingAdapter);
                 }
-                else
-                {
-                    emptyview.setVisibility(View.INVISIBLE);
-                    recyclerView.setVisibility(View.VISIBLE);
-                }
-
-                recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-
-                recyclerView.setAdapter(programmingAdapter);
             }
 
             @Override

@@ -2,6 +2,7 @@ package com.stued.StuEd.Student_ui;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.MenuItem;
 import android.view.WindowManager;
 import android.widget.Toast;
@@ -68,7 +69,7 @@ public class dashboard extends AppCompatActivity implements PaymentResultListene
 
                 case R.id.settings2:
                     selectedFragment= new SettingsFragment();
-                    fragmentTag = "FRAGMENT_SETTINGS";
+                    fragmentTag = "FRAGMENT_OTHER";
                     break;
             }
 
@@ -95,15 +96,18 @@ public class dashboard extends AppCompatActivity implements PaymentResultListene
         fragmentManager.addOnBackStackChangedListener(new FragmentManager.OnBackStackChangedListener() {
             @Override
             public void onBackStackChanged() {
-                int pos = -1;
+                int pos = 0;
                 Fragment currentBackStackFragment = fragmentManager.findFragmentByTag("FRAGMENT");
                 if (currentBackStackFragment instanceof HomeFragment || currentBackStackFragment instanceof listtopics || currentBackStackFragment instanceof listTeachers || currentBackStackFragment instanceof TeacherDescription)
                     pos = 0;
                 else if (currentBackStackFragment instanceof SearchFragment || currentBackStackFragment instanceof TutorSlotBooked)
                     pos = 1;
-                else if (currentBackStackFragment instanceof AccountFragment) pos = 2;
+                else if (currentBackStackFragment instanceof AccountFragment)
+                    pos = 2;
+                else if(currentBackStackFragment instanceof SettingsFragment)
+                    pos=3;
                 BottomNavigationView bottomNav = (BottomNavigationView) findViewById(R.id.bottomNavigationView);
-                if (pos != -1) bottomNav.getMenu().getItem(pos).setChecked(true);
+                bottomNav.getMenu().getItem(pos).setChecked(true);
                 // If the stack decreases it means I clicked the back button
             }
         });
@@ -128,5 +132,26 @@ public class dashboard extends AppCompatActivity implements PaymentResultListene
     @Override
     public void onPointerCaptureChanged(boolean hasCapture) {
 
+    }
+
+    private boolean doubleBackToExitPressedOnce = false;
+
+    @Override
+    public void onBackPressed() {
+        if(getSupportFragmentManager().getBackStackEntryCount()!=0 || doubleBackToExitPressedOnce) {
+            super.onBackPressed();
+            return;
+        }
+
+        this.doubleBackToExitPressedOnce = true;
+        Toast.makeText(this, "Please click BACK again to exit", Toast.LENGTH_SHORT).show();
+
+        new Handler().postDelayed(new Runnable() {
+
+            @Override
+            public void run() {
+                doubleBackToExitPressedOnce=false;
+            }
+        }, 2000);
     }
 }

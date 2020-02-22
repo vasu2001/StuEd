@@ -183,9 +183,11 @@ public class TutorAddSlot extends Fragment {
                     subjects.add(subjectSnapshot.getKey());
                     Log.i(TAG, "onDataChange1: " + subjectSnapshot.getKey());
                 }
-                recyclerView.setLayoutManager(new LinearLayoutManager(Home.getContext()));
-                tprogAdapter listAdapter = new tprogAdapter(Home.getContext(), subjects,databaseReference);
-                recyclerView.setAdapter(listAdapter);
+                if(Home.getContext()!=null) {
+                    recyclerView.setLayoutManager(new LinearLayoutManager(Home.getContext()));
+                    tprogAdapter listAdapter = new tprogAdapter(Home.getContext(), subjects, databaseReference);
+                    recyclerView.setAdapter(listAdapter);
+                }
 
             }
 

@@ -39,13 +39,16 @@ public class attendance extends Fragment {
 
         final View view=inflater.inflate(R.layout.attendance_otp,container,false);
 
-        RecyclerView recyclerView=view.findViewById(R.id.studentOTPlist);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        if(view.getContext()!=null) {
+            RecyclerView recyclerView = view.findViewById(R.id.studentOTPlist);
+            recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+            attendanceAdapter programmingAdapter = new attendanceAdapter(student1, otp, databaseReference);
+            recyclerView.setAdapter(programmingAdapter);
+        }
 
         //read  data here
 
-        attendanceAdapter programmingAdapter=new attendanceAdapter(student1,otp,databaseReference);
-        recyclerView.setAdapter(programmingAdapter);
+
 
 
         Button endslot=view.findViewById(R.id.endSlot);

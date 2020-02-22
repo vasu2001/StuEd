@@ -100,9 +100,11 @@ public class SearchFragment extends Fragment {
                         recyclerView.setVisibility(View.VISIBLE);
                         emptyview.setVisibility(View.INVISIBLE);
                     }
-                    recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-                    BookedSlotProgrammingAdapter programmingAdapter=new BookedSlotProgrammingAdapter(v.getContext(),slots);
-                    recyclerView.setAdapter(programmingAdapter);
+                    if(v.getContext()!=null) {
+                        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+                        BookedSlotProgrammingAdapter programmingAdapter = new BookedSlotProgrammingAdapter(v.getContext(), slots);
+                        recyclerView.setAdapter(programmingAdapter);
+                    }
                 }
                 else ;//showDialog();
             }

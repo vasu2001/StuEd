@@ -35,23 +35,24 @@ public class ListOfStudents extends Fragment {
         TextView studentCount = view.findViewById(R.id.numstudents);
         studentCount.setText(currentStudents+"/"+maxStudents);
 
-        RecyclerView recyclerView=view.findViewById(R.id.subjectList);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        StudentRegisteredAdapter programmingAdapter=new StudentRegisteredAdapter(getActivity(),studentUID);
-        TextView emptyView=view.findViewById(R.id.empty_view1);
-        if (studentUID.isEmpty()) {
-            recyclerView.setVisibility(View.GONE);
-            emptyView.setText("No Student Registered!!");
-            emptyView.setVisibility(View.VISIBLE);
+        if(view.getContext()!=null) {
+            RecyclerView recyclerView = view.findViewById(R.id.subjectList);
+            recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+            StudentRegisteredAdapter programmingAdapter = new StudentRegisteredAdapter(view.getContext(), studentUID);
+            TextView emptyView = view.findViewById(R.id.empty_view1);
 
+            if (studentUID.isEmpty()) {
+                recyclerView.setVisibility(View.GONE);
+                emptyView.setText("No Student Registered!!");
+                emptyView.setVisibility(View.VISIBLE);
+
+            } else {
+                recyclerView.setVisibility(View.VISIBLE);
+                emptyView.setVisibility(View.GONE);
+
+            }
+            recyclerView.setAdapter(programmingAdapter);
         }
-        else {
-            recyclerView.setVisibility(View.VISIBLE);
-            emptyView.setVisibility(View.GONE);
-
-        }
-        recyclerView.setAdapter(programmingAdapter);
-
 
         return view;
     }
