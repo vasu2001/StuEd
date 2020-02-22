@@ -143,16 +143,12 @@ public class TutorTopic extends Fragment
                         }
                     });
                     RecyclerView recyclerView = view.findViewById(R.id.subjectList2);
-                    if (topics.isEmpty()) {
-                        emptyview.setVisibility(View.VISIBLE);
-                        recyclerView.setVisibility(View.INVISIBLE);
-                    } else {
-                        emptyview.setVisibility(View.INVISIBLE);
-                        recyclerView.setVisibility(View.VISIBLE);
-                    }
+
+                    emptyview.setVisibility(View.INVISIBLE);
+                    recyclerView.setVisibility(View.VISIBLE);
+
 
                     recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-
                     recyclerView.setAdapter(programmingAdapter);
                 }
             }
