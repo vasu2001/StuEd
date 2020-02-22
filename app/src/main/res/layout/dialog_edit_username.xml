@@ -14,38 +14,30 @@
         android:hint="Enter new Username"
         android:textColorHint="#000000"
         android:fontFamily="@font/robotor"
-        android:textSize="30sp"></EditText>
+        android:textSize="30sp"/>
 
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="40dp">
+        android:layout_height="wrap_content">
 
 
         <ImageView
             android:id="@+id/cancel22"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="140dp"
+            android:layout_height="30dp"
             android:layout_gravity="center"
-            android:src="@drawable/cancel"
-            app:layout_constraintEnd_toStartOf="@+id/save22"
-            app:layout_constraintHorizontal_bias="0.992"
-            app:layout_constraintStart_toStartOf="parent"
-            tools:layout_editor_absoluteY="0dp"></ImageView>
+            android:layout_marginRight="20dp"
+            android:src="@drawable/cancel" />
 
         <ImageView
             android:id="@+id/save22"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="140dp"
+            android:layout_height="30dp"
             android:layout_gravity="right"
-
-
             android:src="@drawable/save"
-            app:layout_constraintEnd_toEndOf="parent"
-            tools:layout_editor_absoluteY="0dp"></ImageView>
+            />
 
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
+        ></FrameLayout>
 </LinearLayout>

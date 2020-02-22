@@ -6,72 +6,116 @@
     android:layout_height="match_parent"
     android:background="@drawable/account">
 
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/h1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.45" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/h2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="1.00" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/v2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.98" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/v1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.01" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline7"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="1.0" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline99"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.01" />
+
 
     <TextView
         android:id="@+id/usernameac"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="15dp"
-        android:layout_marginTop="48dp"
+        android:layout_weight="1"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+
+        android:ellipsize="marquee"
+        android:focusableInTouchMode="true"
         android:gravity="center"
+        android:marqueeRepeatLimit="marquee_forever"
+        android:scrollHorizontally="true"
+        android:singleLine="true"
         android:text="vasu kesharwani"
         android:textColor="@color/white"
         android:textSize="25sp"
         android:textStyle="bold|italic"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
+        app:layout_constraintStart_toStartOf="@+id/v1"
+        app:layout_constraintTop_toTopOf="@+id/guideline99" />
 
     <RatingBar
         android:id="@+id/ratingBar1"
-        android:layout_width="232dp"
+        android:layout_width="0dp"
         android:layout_height="56dp"
-        android:layout_marginStart="128dp"
-        android:layout_marginTop="224dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="10dp"
         android:isIndicator="true"
         android:numStars="5"
         android:paddingTop="10sp"
         android:progressDrawable="@drawable/custom_ratingbar_selector"
         android:visibility="invisible"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-
+        app:layout_constraintBottom_toTopOf="@+id/h1"
+        app:layout_constraintEnd_toStartOf="@+id/v2"
+        app:layout_constraintTop_toBottomOf="@+id/profile_picture" />
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/profile_picture"
         android:layout_width="133dp"
         android:layout_height="109dp"
-        android:layout_marginStart="176dp"
-        android:layout_marginTop="96dp"
+        android:layout_marginTop="76dp"
+        android:layout_marginEnd="44dp"
         android:src="@drawable/usermaleicon"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.107"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintEnd_toStartOf="@+id/v2"
+        app:layout_constraintTop_toTopOf="@+id/guideline99" />
 
     <TextView
         android:id="@+id/accountTag"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="12dp"
         android:fontFamily="sans-serif-medium"
         android:text="Student"
         android:textColor="@android:color/darker_gray"
         android:textStyle="italic"
         app:layout_constraintEnd_toEndOf="@+id/usernameac"
-        app:layout_constraintStart_toStartOf="@+id/usernameac"
+        app:layout_constraintHorizontal_bias="0.432"
+        app:layout_constraintStart_toStartOf="@+id/v1"
         app:layout_constraintTop_toBottomOf="@+id/usernameac" />
 
     <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="405dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/profile_picture"
+        app:layout_constraintEnd_toStartOf="@+id/v2"
+        app:layout_constraintStart_toStartOf="@+id/v1"
+        app:layout_constraintTop_toTopOf="@+id/h1"
         tools:ignore="MissingConstraints">
 
         <ImageView
@@ -79,7 +123,7 @@
             android:layout_width="80dp"
             android:layout_height="50dp"
             android:layout_marginLeft="30dp"
-            android:layout_marginTop="90dp"
+            android:layout_marginTop="40dp"
 
             app:srcCompat="@drawable/mail" />
 
@@ -88,7 +132,7 @@
             android:layout_width="80dp"
             android:layout_height="50dp"
             android:layout_marginLeft="30dp"
-            android:layout_marginTop="220dp"
+            android:layout_marginTop="140dp"
             app:srcCompat="@drawable/call" />
 
         <ImageView
@@ -96,15 +140,15 @@
             android:layout_width="80dp"
             android:layout_height="50dp"
             android:layout_marginLeft="30dp"
-            android:layout_marginTop="340dp"
+            android:layout_marginTop="240dp"
             app:srcCompat="@drawable/school" />
 
         <TextView
             android:id="@+id/textView19"
-            android:layout_width="150dp"
+            android:layout_width="wrap_content"
             android:layout_height="35dp"
-            android:layout_marginStart="128dp"
-            android:layout_marginTop="70dp"
+            android:layout_marginStart="130dp"
+            android:layout_marginTop="35dp"
             android:paddingTop="10sp"
             android:text="Email"
             android:textAlignment="center"
@@ -114,11 +158,10 @@
 
         <TextView
             android:id="@+id/phoneac"
-            android:layout_width="150dp"
+            android:layout_width="wrap_content"
             android:layout_height="35dp"
-            android:layout_marginStart="128dp"
-            android:layout_marginTop="200dp"
-            android:layout_marginEnd="130dp"
+            android:layout_marginStart="130dp"
+            android:layout_marginTop="135dp"
             android:paddingTop="10sp"
             android:text="Phone Number"
             android:textAlignment="center"
@@ -128,10 +171,10 @@
 
         <TextView
             android:id="@+id/collegename1"
-            android:layout_width="150dp"
+            android:layout_width="wrap_content"
             android:layout_height="35dp"
-            android:layout_marginStart="128dp"
-            android:layout_marginTop="320dp"
+            android:layout_marginStart="130dp"
+            android:layout_marginTop="235dp"
             android:paddingTop="10sp"
             android:text="College Name"
             android:textAlignment="center"
@@ -143,10 +186,16 @@
             android:id="@+id/emailAc"
             android:layout_width="wrap_content"
             android:layout_height="35dp"
-            android:layout_marginStart="128dp"
-            android:layout_marginTop="110dp"
+            android:layout_marginStart="130dp"
+            android:layout_marginTop="70dp"
+            android:layout_weight="1"
+            android:ellipsize="marquee"
+            android:focusableInTouchMode="true"
+            android:marqueeRepeatLimit="marquee_forever"
+            android:scrollHorizontally="true"
+
+            android:singleLine="true"
             android:text="vasu.kesharwani@gmail.com"
-            android:textAlignment="center"
             android:textColor="@android:color/black"
             android:textSize="18sp"
             android:textStyle="bold" />
@@ -155,10 +204,16 @@
             android:id="@+id/phoneNumberac"
             android:layout_width="150dp"
             android:layout_height="35dp"
-            android:layout_marginStart="128dp"
-            android:layout_marginTop="240dp"
+            android:layout_marginStart="130dp"
+            android:layout_marginTop="170dp"
+            android:layout_weight="1"
+            android:ellipsize="marquee"
+            android:focusableInTouchMode="true"
+            android:marqueeRepeatLimit="marquee_forever"
+            android:scrollHorizontally="true"
+
+            android:singleLine="true"
             android:text="+91111111111"
-            android:textAlignment="center"
             android:textColor="@android:color/black"
             android:textSize="18sp"
             android:textStyle="bold" />
@@ -167,10 +222,16 @@
             android:id="@+id/collegename"
             android:layout_width="150dp"
             android:layout_height="35dp"
-            android:layout_marginStart="128dp"
-            android:layout_marginTop="360dp"
+            android:layout_marginStart="130dp"
+            android:layout_marginTop="270dp"
+            android:layout_weight="1"
+            android:ellipsize="marquee"
+            android:focusableInTouchMode="true"
+            android:marqueeRepeatLimit="marquee_forever"
+            android:scrollHorizontally="true"
+
+            android:singleLine="true"
             android:text="Jaypee"
-            android:textAlignment="center"
             android:textColor="@android:color/black"
             android:textSize="18sp"
             android:textStyle="bold" />
@@ -180,9 +241,13 @@
         android:id="@+id/editprofilepic"
         android:layout_width="23dp"
         android:layout_height="22dp"
-        android:layout_marginTop="186dp"
+        app:layout_constraintBottom_toTopOf="@+id/h1"
+        app:layout_constraintEnd_toStartOf="@+id/v2"
+        app:layout_constraintHorizontal_bias="0.384"
         app:layout_constraintStart_toEndOf="@+id/profile_picture"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/guideline99"
+        app:layout_constraintVertical_bias="0.579"
         app:srcCompat="@drawable/pencil" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

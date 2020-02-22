@@ -113,6 +113,7 @@ public class AccountFragment extends Fragment {
         mAuth=FirebaseAuth.getInstance();
         userData = FirebaseDatabase.getInstance().getReference((new TinyDBorderID(getActivity())).getString("collegeName")).child("Users");
         emailAC.setText(mAuth.getCurrentUser().getEmail());
+        emailAC.setSelected(true);
 
         Glide.with(v.getContext())
                 .load(storageReference.child("profileImages").child(mAuth.getCurrentUser().getUid()))

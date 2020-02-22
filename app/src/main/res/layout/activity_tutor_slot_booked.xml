@@ -88,7 +88,8 @@
                     android:layout_marginRight="20dp"
                     android:gravity="center_horizontal"
                     android:text="Subject"
-                    android:textColor="@color/white" />
+                    android:textColor="@color/white"
+                    app:fontFamily="@font/robotor"/>
 
                 <TextView
                     android:id="@+id/msubject"
@@ -96,7 +97,8 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_marginLeft="20dp"
-                    android:text="Loading..." />
+                    android:text="Loading..."
+                    app:fontFamily="@font/raleway"/>
             </LinearLayout>
 
             <LinearLayout
@@ -113,6 +115,7 @@
                     android:layout_marginRight="20dp"
                     android:gravity="center_horizontal"
                     android:text="Topic"
+                    app:fontFamily="@font/robotor"
                     android:textColor="@color/white" />
 
                 <TextView
@@ -121,7 +124,8 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_marginLeft="20dp"
-                    android:text="Loading..." />
+                    android:text="Loading..."
+                    app:fontFamily="@font/raleway"/>
             </LinearLayout>
 
             <LinearLayout
@@ -138,6 +142,7 @@
                     android:layout_marginRight="20dp"
                     android:gravity="center_horizontal"
                     android:text="Teacher's Name"
+                    app:fontFamily="@font/robotor"
                     android:textColor="@color/white" />
 
                 <TextView
@@ -146,7 +151,8 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_marginLeft="20dp"
-                    android:text="Loading..." />
+                    android:text="Loading..."
+                    app:fontFamily="@font/raleway"/>
             </LinearLayout>
 
             <LinearLayout
@@ -163,6 +169,7 @@
                     android:layout_marginRight="20dp"
                     android:gravity="center_horizontal"
                     android:text="Estimated\n Marks"
+                    app:fontFamily="@font/robotor"
                     android:textColor="@color/white" />
 
                 <TextView
@@ -171,7 +178,8 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_marginLeft="20dp"
-                    android:text="Loading..." />
+                    android:text="Loading..."
+                    app:fontFamily="@font/raleway"/>
             </LinearLayout>
 
             <LinearLayout
@@ -189,6 +197,7 @@
                     android:layout_marginRight="20dp"
                     android:gravity="center_horizontal"
                     android:text="Fees"
+                    app:fontFamily="@font/robotor"
                     android:textColor="@color/white" />
 
                 <TextView
@@ -196,7 +205,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:text="Loading..." />
+                    android:text="Loading..."
+                    app:fontFamily="@font/raleway"/>
             </LinearLayout>
 
             <LinearLayout
@@ -213,6 +223,7 @@
                     android:layout_marginRight="20dp"
                     android:gravity="center_horizontal"
                     android:text="Date"
+                    app:fontFamily="@font/robotor"
                     android:textColor="@color/white" />
 
                 <TextView
@@ -221,7 +232,8 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_marginLeft="20dp"
-                    android:text="Loading..." />
+                    android:text="Loading..."
+                    app:fontFamily="@font/raleway"/>
             </LinearLayout>
 
             <LinearLayout
@@ -238,6 +250,7 @@
                     android:layout_marginRight="20dp"
                     android:gravity="center_horizontal"
                     android:text="Time"
+                    app:fontFamily="@font/robotor"
                     android:textColor="@color/white" />
 
                 <TextView
@@ -246,7 +259,8 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_marginLeft="20dp"
-                    android:text="Loading..." />
+                    android:text="Loading..."
+                    app:fontFamily="@font/raleway"/>
             </LinearLayout>
 
             <LinearLayout
@@ -263,6 +277,7 @@
                     android:layout_marginRight="20dp"
                     android:gravity="center_horizontal"
                     android:text="Phone No"
+                    app:fontFamily="@font/robotor"
                     android:textColor="@color/white" />
 
                 <TextView
@@ -271,7 +286,8 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_marginLeft="20dp"
-                    android:text="Loading..." />
+                    android:text="Loading..."
+                    app:fontFamily="@font/raleway"/>
             </LinearLayout>
 
             <LinearLayout
@@ -288,6 +304,7 @@
                     android:layout_marginRight="20dp"
                     android:gravity="center_horizontal"
                     android:text="Email Id"
+                    app:fontFamily="@font/robotor"
                     android:textColor="@color/white" />
 
                 <TextView
@@ -296,7 +313,8 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_marginLeft="20dp"
-                    android:text="Loading..." />
+                    android:text="Loading..."
+                    app:fontFamily="@font/raleway"/>
             </LinearLayout>
 
             <LinearLayout
@@ -313,6 +331,7 @@
                     android:layout_marginRight="20dp"
                     android:gravity="center_horizontal"
                     android:text="Venue"
+                    app:fontFamily="@font/robotor"
                     android:textColor="@color/white" />
 
                 <TextView
@@ -322,14 +341,16 @@
                     android:layout_gravity="center"
                     android:layout_marginLeft="20dp"
                     android:layout_marginRight="20dp"
-                    android:text="Loading..." />
+                    android:text="Loading..."
+                    app:fontFamily="@font/raleway"/>
 
                 <TextView
                     android:id="@+id/venue2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:text="Loading..." />
+                    android:text="Loading..."
+                    app:fontFamily="@font/raleway"/>
 
             </LinearLayout>
 
@@ -347,6 +368,7 @@
                     android:layout_marginRight="20dp"
                     android:gravity="center_horizontal"
                     android:text="OTP"
+                    app:fontFamily="@font/robotor"
                     android:textColor="@color/white" />
 
                 <TextView
@@ -355,7 +377,8 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_marginLeft="20dp"
-                    android:text="Loading..." />
+                    android:text="Loading..."
+                    app:fontFamily="@font/raleway"/>
             </LinearLayout>
 
         </LinearLayout>
