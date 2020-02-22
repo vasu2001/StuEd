@@ -1,11 +1,13 @@
 package com.stued.StuEd.Login_and_signup;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
@@ -56,6 +58,7 @@ private DatabaseReference userLogin;
     ProgressBar progressBar5;
     String answer,op;
     private FirebaseDatabase mDatabase;
+    private  Dialog dialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,8 +79,11 @@ private DatabaseReference userLogin;
                 startActivity(intent);
             }
         });
-
-        progressBar5=findViewById(R.id.progressBar5);
+        dialog=new Dialog(MainActivity.this);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.loading_fragment);
+        dialog.cancel();
+      //  progressBar5=findViewById(R.id.progressBar5);
         final Spinner spinner=findViewById(R.id.spinner4);
         ArrayAdapter<CharSequence> adapter=ArrayAdapter.createFromResource(this,R.array.collegename,R.layout.spinneritem);
         adapter.setDropDownViewResource(R.layout.spinneritemdropdown);
@@ -242,7 +248,7 @@ private DatabaseReference userLogin;
     @Override
     protected void onResume() {
         super.onResume();
-        progressBar5.setVisibility(View.INVISIBLE);
+        dialog.cancel();
     }
 
      public void checkcurrentuser()
@@ -400,13 +406,14 @@ private DatabaseReference userLogin;
 
     private void enableEdittext()
     {
-        progressBar5.setVisibility(View.INVISIBLE);
+        dialog.cancel();
         inputEmail.setEnabled(true);
         inputPassword.setEnabled(true);
     }
     private void disableEdittext()
     {
-        progressBar5.setVisibility(View.VISIBLE);
+
+        dialog.show();
         inputEmail.setEnabled(false);
         inputPassword.setEnabled(false);
     }

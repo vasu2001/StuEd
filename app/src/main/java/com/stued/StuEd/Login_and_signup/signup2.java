@@ -1,11 +1,13 @@
 package com.stued.StuEd.Login_and_signup;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
@@ -45,7 +47,7 @@ public class signup2 extends AppCompatActivity implements View.OnClickListener {
     private Button resend;
     private static final String KEY_VERIFY_IN_PROGRESS="key_verify_in_progress";
     boolean mVerficationInProgress=false;
-    private ProgressBar progressBar;
+
     private String mVerificationId;
     private PhoneAuthProvider.ForceResendingToken mResendToken;
     private PhoneAuthProvider.OnVerificationStateChangedCallbacks mCallbacks;
@@ -53,6 +55,7 @@ public class signup2 extends AppCompatActivity implements View.OnClickListener {
     private DatabaseReference mDatabse;
     private boolean doubleBackToExitPressedOnce = false;
     private int flag=0;
+    Dialog dialog12;
 
 
     @Override
@@ -64,7 +67,7 @@ public class signup2 extends AppCompatActivity implements View.OnClickListener {
         {
             onRestoreInstanceState(savedInstanceState);
         }
-        progressBar=findViewById(R.id.progressBar);
+
         mAuth=FirebaseAuth.getInstance();
         mDatabse=FirebaseDatabase.getInstance().getReference((new TinyDBorderID(signup2.this)).getString("collegeName")).child("Users");
         mPhonenoField=findViewById(R.id.editText);
@@ -75,7 +78,10 @@ public class signup2 extends AppCompatActivity implements View.OnClickListener {
         start.setOnClickListener(this);
         verify.setOnClickListener(this);
         resend.setOnClickListener(this);
-
+        dialog12=new Dialog(signup2.this);
+        dialog12.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog12.setContentView(R.layout.loading_fragment);
+        dialog12.cancel();
         mCallbacks=new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
             @Override
             public void onVerificationCompleted(@NonNull PhoneAuthCredential Credential) {
@@ -84,7 +90,6 @@ public class signup2 extends AppCompatActivity implements View.OnClickListener {
                 linkuser(Credential);
                 addphoneno(mPhonenoField.getText().toString());
                 enableEdittext();
-
             }
 
             @Override
@@ -99,7 +104,6 @@ public class signup2 extends AppCompatActivity implements View.OnClickListener {
                 else if(e instanceof FirebaseAuthInvalidCredentialsException)
                 {
                     Toast.makeText(getApplicationContext(),"Quota Exceeded",Toast.LENGTH_LONG).show();
-
                 }
             }
 
@@ -145,13 +149,15 @@ enableEdittext();
         {
             mPhonenoField.setError("Invalid phone number");
             return false;
-        }else {
+        }else
+            {
             mDatabse.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                         Users user = snapshot.getValue(Users.class);
-                        if (mPhonenoField.getText().toString().equals(user.PhoneNo)) {
+                        if (mPhonenoField.getText().toString().equals(user.PhoneNo))
+                        {
                             Toast.makeText(signup2.this, "This phone number is allready linked with another account,Kindly use another phone number!!", Toast.LENGTH_LONG).show();
                             flag = 1;
                         }
@@ -169,7 +175,7 @@ enableEdittext();
             {
                 return true;
             }
-        }
+            }
     }
 
 
@@ -263,15 +269,15 @@ public void addphoneno(final String phoneno)
 }
     private void enableEdittext()
     {
-        progressBar.setVisibility(View.INVISIBLE);
+     dialog12.cancel();
         motp.setEnabled(true);
         mPhonenoField.setEnabled(true);
 
     }
     private void disableEdittext()
     {
-        progressBar.setVisibility(View.VISIBLE);
-        motp.setEnabled(false);
+       dialog12.show();
+    motp.setEnabled(false);
         mPhonenoField.setEnabled(false);
     }
     @Override
@@ -284,7 +290,9 @@ public void addphoneno(final String phoneno)
                 {
                     return;
                 }
-                startPhoneNumberVerification(mPhonenoField.getText().toString());
+                else {
+                    startPhoneNumberVerification(mPhonenoField.getText().toString());
+                }
                 break;
             case R.id.mverify:
                 String code=motp.getText().toString();

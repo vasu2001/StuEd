@@ -44,7 +44,7 @@ private Button changePhoneNo,changeusername,signout;
 private FirebaseAuth auth;
 private FirebaseUser user;
 private DatabaseReference reference;
-private ProgressBar progressBar22;
+
      private static final String TAG="GoogleActivity";
      private GoogleSignInClient mGoogleSiginInClient;
 
@@ -70,11 +70,13 @@ private ProgressBar progressBar22;
         signout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                progressBar22.setVisibility(View.VISIBLE);
                 signout.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
+                        final Dialog dialog=new Dialog(getView().getContext());
+                        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                        dialog.setContentView(R.layout.loading_fragment);
+                        dialog.show();
                         auth.signOut();
                         mGoogleSiginInClient.signOut().addOnCompleteListener(new OnCompleteListener<Void>() {
                             @Override
@@ -162,21 +164,17 @@ private ProgressBar progressBar22;
         return view;
     }
 
-     @Override
-     public void onResume() {
-        progressBar22.setVisibility(View.INVISIBLE);
-        super.onResume();
-     }
 
      @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-         progressBar22=view.findViewById(R.id.progressBar44);
-
-         changePhoneNo.setOnClickListener(new View.OnClickListener() {
+    changePhoneNo.setOnClickListener(new View.OnClickListener() {
              @Override
              public void onClick(View view) {
-                 progressBar22.setVisibility(View.VISIBLE);
+                 final Dialog dialog=new Dialog(getView().getContext());
+                 dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                 dialog.setContentView(R.layout.loading_fragment);
+                 dialog.show();
                  FirebaseUser user = auth.getCurrentUser();
                  List<? extends UserInfo> providerData = user.getProviderData();
                  for (UserInfo userInfo : providerData ) {
@@ -198,7 +196,6 @@ private ProgressBar progressBar22;
                                                  else
                                                  {
                                                      Toast.makeText(getActivity(),task.getException().getMessage().toString(),Toast.LENGTH_LONG).show();
-                                                     progressBar22.setVisibility(View.INVISIBLE);
                                                  }
                                              }
                                          });

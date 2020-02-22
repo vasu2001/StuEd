@@ -1,11 +1,13 @@
 package com.stued.StuEd.Login_and_signup;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
+import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
@@ -28,13 +30,13 @@ import com.google.firebase.database.FirebaseDatabase;
 public class signup1 extends AppCompatActivity {
     Intent intent;
     private EditText inputEmail, inputPassword,inputUsername,inputRetypepass;
-    private ProgressBar progressBar1;
 
     private String userId;
     private String email;
 
     private FirebaseAuth mAuth;
     private FirebaseDatabase mDatabase;
+    private Dialog dialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,9 +46,12 @@ public class signup1 extends AppCompatActivity {
         inputPassword = (EditText) findViewById(R.id.editText3);
         inputRetypepass=(EditText)findViewById(R.id.retypeass);
         inputUsername = (EditText) findViewById(R.id.username);
-        progressBar1= (ProgressBar) findViewById(R.id.progressBar1);
         mDatabase=FirebaseDatabase.getInstance();
         mAuth = FirebaseAuth.getInstance();
+        dialog=new Dialog(signup1.this);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.loading_fragment);
+        dialog.cancel();
         final Spinner spinner=findViewById(R.id.spinner3);
         ArrayAdapter<CharSequence> adapter=ArrayAdapter.createFromResource(getBaseContext(),R.array.collegename,R.layout.spinneritem);
         adapter.setDropDownViewResource(R.layout.spinneritemdropdown);
@@ -73,7 +78,7 @@ public class signup1 extends AppCompatActivity {
     }
     private void enableEdittext()
     {
-        progressBar1.setVisibility(View.INVISIBLE);
+        dialog.cancel();
         inputEmail.setEnabled(true);
         inputPassword.setEnabled(true);
         inputRetypepass.setEnabled(true);
@@ -81,7 +86,7 @@ public class signup1 extends AppCompatActivity {
     }
     private void disableEdittext()
     {
-        progressBar1.setVisibility(View.VISIBLE);
+       dialog.show();
         inputEmail.setEnabled(false);
         inputPassword.setEnabled(false);
         inputRetypepass.setEnabled(false);
