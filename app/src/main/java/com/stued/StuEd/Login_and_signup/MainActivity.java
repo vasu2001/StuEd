@@ -206,29 +206,33 @@ public class MainActivity extends AppCompatActivity {
                                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                                         String userType = dataSnapshot.child("TeacherAc").getValue(String.class);
                                         String userno = dataSnapshot.child("PhoneNo").getValue(String.class);
-                                        if (userno.equals("")) {
-                                            Toast.makeText(MainActivity.this, "Kindly Add Phone number to continue", Toast.LENGTH_SHORT).show();
-                                            Intent intent = new Intent(MainActivity.this, signup2.class);
-                                            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                                            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                                            startActivity(intent);
-                                            finish();
-                                        } else {
-                                            if (userType.equals("yes")) {
-                                                Intent finalIntent = new Intent(MainActivity.this, TutorDashboard.class);
-                                                finalIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                                                finalIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                                                startActivity(finalIntent);
+                                        try {
+                                            if (userno.equals("")) {
+                                                Toast.makeText(MainActivity.this, "Kindly Add Phone number to continue", Toast.LENGTH_SHORT).show();
+                                                Intent intent = new Intent(MainActivity.this, signup2.class);
+                                                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                                startActivity(intent);
                                                 finish();
                                             } else {
-                                                Intent finalIntent2 = new Intent(MainActivity.this, dashboard.class);
-                                                finalIntent2.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                                                finalIntent2.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                                                startActivity(finalIntent2);
-                                                finish();
+                                                if (userType.equals("yes")) {
+                                                    Intent finalIntent = new Intent(MainActivity.this, TutorDashboard.class);
+                                                    finalIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                                    finalIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                                    startActivity(finalIntent);
+                                                    finish();
+                                                } else {
+                                                    Intent finalIntent2 = new Intent(MainActivity.this, dashboard.class);
+                                                    finalIntent2.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                                    finalIntent2.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                                    startActivity(finalIntent2);
+                                                    finish();
+                                                }
                                             }
+                                        }catch (NullPointerException e) {
+                                            userno = "";
                                         }
-
+                                        if(userno==null)userno="";
                                     }
 
                                     @Override
@@ -274,31 +278,37 @@ public class MainActivity extends AppCompatActivity {
                             String userType = dataSnapshot.child("TeacherAc").getValue(String.class);
                             String userno = dataSnapshot.child("PhoneNo").getValue(String.class);
                             FirebaseUser newUser = mAuth5.getCurrentUser();
-
-                            if (userno.equals("")) {
-                                Toast.makeText(MainActivity.this, "Kindly Add Phone number to continue", Toast.LENGTH_SHORT).show();
-                                Intent intent = new Intent(MainActivity.this, signup2.class);
-                                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                                startActivity(intent);
-                                finish();
-                            } else {
-                                if (userType.equals("yes")) {
-                                    Intent finalIntent = new Intent(MainActivity.this, TutorDashboard.class);
-                                    finalIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                                    finalIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                                    startActivity(finalIntent);
+                            try {
+                                if (userno.equals("")) {
+                                    Toast.makeText(MainActivity.this, "Kindly Add Phone number to continue", Toast.LENGTH_SHORT).show();
+                                    Intent intent = new Intent(MainActivity.this, signup2.class);
+                                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                    startActivity(intent);
                                     finish();
                                 } else {
-                                    Intent finalIntent2 = new Intent(MainActivity.this, dashboard.class);
-                                    finalIntent2.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                                    finalIntent2.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                                    startActivity(finalIntent2);
-                                    finish();
+                                    if (userType.equals("yes")) {
+                                        Intent finalIntent = new Intent(MainActivity.this, TutorDashboard.class);
+                                        finalIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                        finalIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                        startActivity(finalIntent);
+                                        finish();
+                                    } else {
+                                        Intent finalIntent2 = new Intent(MainActivity.this, dashboard.class);
+                                        finalIntent2.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                        finalIntent2.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                        startActivity(finalIntent2);
+                                        finish();
+                                    }
                                 }
+                            }catch (NullPointerException e) {
+                                userno = "";
                             }
+                            if(userno==null)userno="";
 
-                        }
+
+
+                    }
 
                         @Override
                         public void onCancelled(@NonNull DatabaseError databaseError) {
@@ -356,26 +366,33 @@ public class MainActivity extends AppCompatActivity {
                                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                                         String userType = dataSnapshot.child("TeacherAc").getValue(String.class);
                                         String phoneno = dataSnapshot.child("PhoneNo").getValue(String.class);
-                                        if (phoneno.equals("")) {
-                                            Toast.makeText(MainActivity.this, "Kindly Add Phone number to continue", Toast.LENGTH_SHORT).show();
-                                            Intent intent = new Intent(MainActivity.this, signup2.class);
-                                            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                                            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                                            startActivity(intent);
-                                            finish();
-                                        } else {
-                                            if (userType.equals("yes")) {
-                                                Intent finalIntent = new Intent(MainActivity.this, TutorDashboard.class);
-                                                finalIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                                                startActivity(finalIntent);
+                                        try {
+                                            if (phoneno.equals("")) {
+                                                Toast.makeText(MainActivity.this, "Kindly Add Phone number to continue", Toast.LENGTH_SHORT).show();
+                                                Intent intent = new Intent(MainActivity.this, signup2.class);
+                                                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                                startActivity(intent);
                                                 finish();
                                             } else {
-                                                Intent finalIntent2 = new Intent(MainActivity.this, dashboard.class);
-                                                finalIntent2.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                                                startActivity(finalIntent2);
-                                                finish();
+                                                if (userType.equals("yes")) {
+                                                    Intent finalIntent = new Intent(MainActivity.this, TutorDashboard.class);
+                                                    finalIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                                    startActivity(finalIntent);
+                                                    finish();
+                                                } else {
+                                                    Intent finalIntent2 = new Intent(MainActivity.this, dashboard.class);
+                                                    finalIntent2.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                                    startActivity(finalIntent2);
+                                                    finish();
+                                                }
                                             }
+                                        }catch (NullPointerException e) {
+                                            phoneno= "";
                                         }
+                                        if(phoneno==null)phoneno="";
+
+
                                     }
 
                                     @Override
