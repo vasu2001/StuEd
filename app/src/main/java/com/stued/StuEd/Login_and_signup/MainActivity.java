@@ -170,7 +170,10 @@ private DatabaseReference userLogin;
                                 Log.d(TAG, "signin with credentials:success: current user:" + user.getEmail());
                                 Toast.makeText(MainActivity.this, "Firebase Authentication Succeeded", Toast.LENGTH_LONG).show();
                                 mAuth5 = FirebaseAuth.getInstance();
-                                final String phoneno = mAuth5.getCurrentUser().getPhoneNumber();
+                                FirebaseUser newUser = mAuth5.getCurrentUser();
+                                String phoneno="";
+                                if(newUser!=null)phoneno=newUser.getPhoneNumber();
+
                                 String TeacherAc = "";
                                 Users users = new Users
                                         (
@@ -201,8 +204,8 @@ private DatabaseReference userLogin;
                                     userLogin.child(user.getUid()).addValueEventListener(new ValueEventListener() {
                                     @Override
                                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                                        String userType=dataSnapshot.child("TeacherAc").getValue().toString();
-                                        String userno=dataSnapshot.child("PhoneNo").getValue().toString();
+                                        String userType=dataSnapshot.child("TeacherAc").getValue(String.class);
+                                        String userno=dataSnapshot.child("PhoneNo").getValue(String.class);
                                         if(userno.equals(""))
                                         {
                                             Toast.makeText(MainActivity.this,"Kindly Add Phone number to continue",Toast.LENGTH_SHORT).show();
@@ -273,8 +276,8 @@ private DatabaseReference userLogin;
                              @Override
                              public void onDataChange(@NonNull DataSnapshot dataSnapshot)
                              {
-                                 String userType=dataSnapshot.child("TeacherAc").getValue().toString();
-                                 String userno=dataSnapshot.child("PhoneNo").getValue().toString();
+                                 String userType=dataSnapshot.child("TeacherAc").getValue(String.class);
+                                 String userno=dataSnapshot.child("PhoneNo").getValue(String.class);
                                  if(userno.equals(""))
                                  {
                                      Toast.makeText(MainActivity.this,"Kindly Add Phone number to continue",Toast.LENGTH_SHORT).show();
@@ -358,8 +361,8 @@ private DatabaseReference userLogin;
                                 userLogin.child(mAuth5.getCurrentUser().getUid()).addValueEventListener(new ValueEventListener() {
                                     @Override
                                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                                        String userType = dataSnapshot.child("TeacherAc").getValue().toString();
-                                        String phoneno = dataSnapshot.child("PhoneNo").getValue().toString();
+                                        String userType = dataSnapshot.child("TeacherAc").getValue(String.class);
+                                        String phoneno = dataSnapshot.child("PhoneNo").getValue(String.class);
                                         if (phoneno.equals("")) {
                                             Toast.makeText(MainActivity.this, "Kindly Add Phone number to continue", Toast.LENGTH_SHORT).show();
                                             Intent intent = new Intent(MainActivity.this, signup2.class);

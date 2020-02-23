@@ -173,16 +173,19 @@ public class AccountFragment extends Fragment {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if(dataSnapshot.exists())
                 {
-                   String s=dataSnapshot.child("Username").getValue().toString();
+                   String s=dataSnapshot.child("Username").getValue(String.class);
                     //String q=mAuth.getCurrentUser().getDisplayName();
-                    String p=dataSnapshot.child("PhoneNo").getValue().toString();
+                    String p=dataSnapshot.child("PhoneNo").getValue(String.class);
                     usernameAc.setText(s);
                     phoneNumberAc.setText(p);
                     if(dataSnapshot.child("TeacherAc").getValue(String.class).equals("yes")){
                         ratingBar.setVisibility(View.VISIBLE);
                         ratingBar.setStepSize((float)0.1);
                         float rating=0;
-                        if(dataSnapshot.child("noOfRating").getValue(Integer.class)!=0)rating=dataSnapshot.child("rating").getValue(Float.class)/dataSnapshot.child("noOfRating").getValue(Integer.class);
+                        int noOfRating=0;
+                        if(dataSnapshot.child("noOfRating").getValue(Integer.class)!=null)
+                            noOfRating=dataSnapshot.child("noOfRating").getValue(Integer.class);
+                        if(noOfRating!=0 && dataSnapshot.child("rating").getValue(Float.class)!=null)rating=dataSnapshot.child("rating").getValue(Float.class)/noOfRating;
                         ratingBar.setRating(rating);
                         accountTag.setText("Teacher");
                     }
