@@ -45,56 +45,55 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-public class MainActivity extends AppCompatActivity  {
-    Intent intent5,intent6;
+public class MainActivity extends AppCompatActivity {
+    Intent intent5, intent6;
     private EditText inputEmail, inputPassword;
     TextView forgetpassw;
-    private static final String TAG="GoogleActivity";
-    private static final int RC_SIGN_IN=9001;
+    private static final String TAG = "GoogleActivity";
+    private static final int RC_SIGN_IN = 9001;
     GoogleSignInClient mGoogleSiginInClient;
     private CallbackManager mCallbackManager;
-private DatabaseReference userLogin;
+    private DatabaseReference userLogin;
     private FirebaseAuth mAuth5;
     ProgressBar progressBar5;
-    String answer,op;
+    String answer, op;
     private FirebaseDatabase mDatabase;
-    private  Dialog dialog;
+    private Dialog dialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        answer="";
-        op="yes";
-        TinyDBorderID tinyDBorderID=new TinyDBorderID(this);
-        tinyDBorderID.putString("collegeName","JIIT");
+        answer = "";
+        op = "yes";
+        TinyDBorderID tinyDBorderID = new TinyDBorderID(this);
+        tinyDBorderID.putString("collegeName", "JIIT");
         inputEmail = findViewById(R.id.email5);
         inputPassword = findViewById(R.id.password5);
-        forgetpassw=findViewById(R.id.forgetpass);
-        mDatabase=FirebaseDatabase.getInstance();
+        forgetpassw = findViewById(R.id.forgetpass);
+        mDatabase = FirebaseDatabase.getInstance();
         forgetpassw.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent= new Intent(MainActivity.this,forgetPassword.class);
+                Intent intent = new Intent(MainActivity.this, forgetPassword.class);
                 startActivity(intent);
             }
         });
 
-        dialog=new Dialog(MainActivity.this);
+        dialog = new Dialog(MainActivity.this);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.loading_fragment);
         dialog.setCanceledOnTouchOutside(false);
         dialog.cancel();
-      //  progressBar5=findViewById(R.id.progressBar5);
-        final Spinner spinner=findViewById(R.id.spinner4);
-        ArrayAdapter<CharSequence> adapter=ArrayAdapter.createFromResource(this,R.array.collegename,R.layout.spinneritem);
+        //  progressBar5=findViewById(R.id.progressBar5);
+        final Spinner spinner = findViewById(R.id.spinner4);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.collegename, R.layout.spinneritem);
         adapter.setDropDownViewResource(R.layout.spinneritemdropdown);
         spinner.setAdapter(adapter);
-        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener(){
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 
             @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l)
-            {
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 String spinner1;
                 spinner1 = spinner.getItemAtPosition(i).toString();
             }
@@ -106,13 +105,13 @@ private DatabaseReference userLogin;
         });
         mAuth5 = FirebaseAuth.getInstance();
         userLogin = FirebaseDatabase.getInstance().getReference(tinyDBorderID.getString("collegeName")).child("Users");
-        String s="656376251395-5jpuvti5ag4dv65mcjfclsb21q0abddh.apps.googleusercontent.com";
-        GoogleSignInOptions gso=new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+        String s = "656376251395-5jpuvti5ag4dv65mcjfclsb21q0abddh.apps.googleusercontent.com";
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(s)
                 .requestEmail()
                 .build();
-        mGoogleSiginInClient= GoogleSignIn.getClient(this,gso);
-        SignInButton signInButton=findViewById(R.id.gsignin);
+        mGoogleSiginInClient = GoogleSignIn.getClient(this, gso);
+        SignInButton signInButton = findViewById(R.id.gsignin);
         signInButton.setSize(SignInButton.SIZE_WIDE);
         signInButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -123,56 +122,59 @@ private DatabaseReference userLogin;
         checkcurrentuser();
     }
 
-    public void signInToGoogle()
-    {
-        Intent signInIntent=mGoogleSiginInClient.getSignInIntent();
-        startActivityForResult(signInIntent,RC_SIGN_IN);
+    public void signInToGoogle() {
+        Intent signInIntent = mGoogleSiginInClient.getSignInIntent();
+        startActivityForResult(signInIntent, RC_SIGN_IN);
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode==RC_SIGN_IN)
-        {
-            Task<GoogleSignInAccount> task=GoogleSignIn.getSignedInAccountFromIntent(data);
+        if (requestCode == RC_SIGN_IN) {
+            Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
             try {
-                GoogleSignInAccount account=task.getResult(ApiException.class);
+                GoogleSignInAccount account = task.getResult(ApiException.class);
                 Toast.makeText(this, "Google Sign in succeeded", Toast.LENGTH_LONG).show();
                 firebaseAuthWithGoogle(account);
 
 
             } catch (ApiException e) {
-                Log.w(TAG,"Google sign in failed",e);
-                Toast.makeText(this,"Google Sign in failed "+ e,Toast.LENGTH_LONG).show();
+                Log.w(TAG, "Google sign in failed", e);
+                Toast.makeText(this, "Google Sign in failed " + e, Toast.LENGTH_LONG).show();
             }
         }
     }
 
-    public void firebaseAuthWithGoogle(final GoogleSignInAccount acct)
-    {
+    public void firebaseAuthWithGoogle(final GoogleSignInAccount acct) {
 
         disableEdittext();
-       final Intent intent = new Intent(this, signup2.class);
-        final String personName=acct.getDisplayName();
-        final String personEmail=acct.getEmail();
-        Log.d(TAG,"firebaseAuthWithGoogle:"+acct.getId());
-        AuthCredential credential= GoogleAuthProvider.getCredential(acct.getIdToken(),null);
+        final Intent intent = new Intent(this, signup2.class);
+        final String personName = acct.getDisplayName();
+        final String personEmail = acct.getEmail();
+        Log.d(TAG, "firebaseAuthWithGoogle:" + acct.getId());
+        AuthCredential credential = GoogleAuthProvider.getCredential(acct.getIdToken(), null);
         mAuth5.signInWithCredential(credential)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful())
-                        {
-                           enableEdittext();
+                        if (task.isSuccessful()) {
+                            enableEdittext();
                             boolean newuser = task.getResult().getAdditionalUserInfo().isNewUser();
-                            if(newuser) {
+                            if (newuser) {
                                 FirebaseUser user = mAuth5.getCurrentUser();
                                 Log.d(TAG, "signin with credentials:success: current user:" + user.getEmail());
                                 Toast.makeText(MainActivity.this, "Firebase Authentication Succeeded", Toast.LENGTH_LONG).show();
                                 mAuth5 = FirebaseAuth.getInstance();
                                 FirebaseUser newUser = mAuth5.getCurrentUser();
-                                String phoneno="";
-                                if(newUser!=null)phoneno=newUser.getPhoneNumber();
+                                String phoneno = "";
+                                try {
+                                    phoneno = newUser.getPhoneNumber();
+
+                                } catch (NullPointerException e) {
+                                    phoneno = "";
+                                }
+
+                                if(phoneno==null)phoneno="";
 
                                 String TeacherAc = "";
                                 Users users = new Users
@@ -191,31 +193,27 @@ private DatabaseReference userLogin;
                                             public void onComplete(@NonNull Task<Void> task) {
                                                 Toast.makeText(MainActivity.this, "Registered Successfully!", Toast.LENGTH_LONG).show();
                                                 Intent intent22;
-                                                    intent22 = new Intent(MainActivity.this, signup2.class);
-                                                    startActivity(intent22);
-                                                    finish();
+                                                intent22 = new Intent(MainActivity.this, signup2.class);
+                                                startActivity(intent22);
+                                                finish();
 
                                             }
                                         });
-                            }
-                            else
-                            {
-                                    final FirebaseUser user = mAuth5.getCurrentUser();
-                                    userLogin.child(user.getUid()).addValueEventListener(new ValueEventListener() {
+                            } else {
+                                final FirebaseUser user = mAuth5.getCurrentUser();
+                                userLogin.child(user.getUid()).addValueEventListener(new ValueEventListener() {
                                     @Override
                                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                                        String userType=dataSnapshot.child("TeacherAc").getValue(String.class);
-                                        String userno=dataSnapshot.child("PhoneNo").getValue(String.class);
-                                        if(userno.equals(""))
-                                        {
-                                            Toast.makeText(MainActivity.this,"Kindly Add Phone number to continue",Toast.LENGTH_SHORT).show();
-                                            Intent intent=new Intent(MainActivity.this,signup2.class);
+                                        String userType = dataSnapshot.child("TeacherAc").getValue(String.class);
+                                        String userno = dataSnapshot.child("PhoneNo").getValue(String.class);
+                                        if (userno.equals("")) {
+                                            Toast.makeText(MainActivity.this, "Kindly Add Phone number to continue", Toast.LENGTH_SHORT).show();
+                                            Intent intent = new Intent(MainActivity.this, signup2.class);
                                             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                             startActivity(intent);
                                             finish();
-                                        }
-                                        else {
+                                        } else {
                                             if (userType.equals("yes")) {
                                                 Intent finalIntent = new Intent(MainActivity.this, TutorDashboard.class);
                                                 finalIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -232,18 +230,17 @@ private DatabaseReference userLogin;
                                         }
 
                                     }
+
                                     @Override
                                     public void onCancelled(@NonNull DatabaseError databaseError) {
 
                                     }
                                 });
                             }
-                            }
-                        else
-                        {
+                        } else {
                             enableEdittext();
-                            Log.w(TAG,"siginWithCredentials: failure",task.getException());
-                            Toast.makeText(MainActivity.this,"Firebase Authentication failed:",Toast.LENGTH_LONG).show();
+                            Log.w(TAG, "siginWithCredentials: failure", task.getException());
+                            Toast.makeText(MainActivity.this, "Firebase Authentication failed:", Toast.LENGTH_LONG).show();
                         }
                     }
                 });
@@ -256,90 +253,86 @@ private DatabaseReference userLogin;
         dialog.cancel();
     }
 
-     public void checkcurrentuser()
-         {
+    public void checkcurrentuser() {
 
-             disableEdittext();
-             //check current user
-             final FirebaseUser user = mAuth5.getCurrentUser();
-
-
-             if (user != null && mAuth5.getCurrentUser().isEmailVerified()) {
-                 new Handler().postDelayed(new Runnable() {
-                     @Override
-                     public void run() {
-                         Intent homeIntent= new Intent(MainActivity.this, Splashscreen.class);
-                         startActivity(homeIntent);
-                         //homeIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                         // User is signed in
-                         userLogin.child(user.getUid()).addValueEventListener(new ValueEventListener() {
-                             @Override
-                             public void onDataChange(@NonNull DataSnapshot dataSnapshot)
-                             {
-                                 String userType=dataSnapshot.child("TeacherAc").getValue(String.class);
-                                 String userno=dataSnapshot.child("PhoneNo").getValue(String.class);
-                                 if(userno.equals(""))
-                                 {
-                                     Toast.makeText(MainActivity.this,"Kindly Add Phone number to continue",Toast.LENGTH_SHORT).show();
-                                     Intent intent=new Intent(MainActivity.this,signup2.class);
-                                     intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                                     intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                                     startActivity(intent);
-                                     finish();
-                                 }
-                                 else
-                                     {
-                                     if (userType.equals("yes")) {
-                                         Intent finalIntent = new Intent(MainActivity.this, TutorDashboard.class);
-                                         finalIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                                         finalIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                                         startActivity(finalIntent);
-                                         finish();
-                                     } else {
-                                         Intent finalIntent2 = new Intent(MainActivity.this, dashboard.class);
-                                         finalIntent2.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                                         finalIntent2.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                                         startActivity(finalIntent2);
-                                         finish();
-                                     }
-                                 }
-
-                             }
-                             @Override
-                             public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                             }
-                         });
-                     }
-                 },0);
+        disableEdittext();
+        //check current user
+        final FirebaseUser user = mAuth5.getCurrentUser();
 
 
-             }
-             else{
-                 // User is signed out
-                 Log.d("status=", "onAuthStateChanged:signed_out");
-                 enableEdittext();
+        if (user != null && mAuth5.getCurrentUser().isEmailVerified()) {
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    Intent homeIntent = new Intent(MainActivity.this, Splashscreen.class);
+                    startActivity(homeIntent);
+                    //homeIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    // User is signed in
+                    userLogin.child(user.getUid()).addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                            String userType = dataSnapshot.child("TeacherAc").getValue(String.class);
+                            String userno = dataSnapshot.child("PhoneNo").getValue(String.class);
+                            FirebaseUser newUser = mAuth5.getCurrentUser();
+
+                            if (userno.equals("")) {
+                                Toast.makeText(MainActivity.this, "Kindly Add Phone number to continue", Toast.LENGTH_SHORT).show();
+                                Intent intent = new Intent(MainActivity.this, signup2.class);
+                                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                startActivity(intent);
+                                finish();
+                            } else {
+                                if (userType.equals("yes")) {
+                                    Intent finalIntent = new Intent(MainActivity.this, TutorDashboard.class);
+                                    finalIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                    finalIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                    startActivity(finalIntent);
+                                    finish();
+                                } else {
+                                    Intent finalIntent2 = new Intent(MainActivity.this, dashboard.class);
+                                    finalIntent2.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                    finalIntent2.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                    startActivity(finalIntent2);
+                                    finish();
+                                }
+                            }
+
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                        }
+                    });
                 }
+            }, 0);
 
 
-         }
+        } else {
+            // User is signed out
+            Log.d("status=", "onAuthStateChanged:signed_out");
+            enableEdittext();
+        }
 
 
-    public void signup(View view)
-    {
-        intent6 =new Intent(getApplicationContext(), signup1.class);
+    }
+
+
+    public void signup(View view) {
+        intent6 = new Intent(getApplicationContext(), signup1.class);
         startActivity(intent6);
     }
-    public void login(View view)
-    {
-      disableEdittext();
+
+    public void login(View view) {
+        disableEdittext();
         String email44 = inputEmail.getText().toString().trim();
         final String password44 = inputPassword.getText().toString();
 
         if (TextUtils.isEmpty(email44)) {
 
             Toast.makeText(getApplicationContext(), "Enter email address!", Toast.LENGTH_SHORT).show();
-          enableEdittext();
+            enableEdittext();
 
             return;
         }
@@ -355,8 +348,8 @@ private DatabaseReference userLogin;
                 .addOnCompleteListener(MainActivity.this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful() ) {
-                            if( mAuth5.getCurrentUser().isEmailVerified()) {
+                        if (task.isSuccessful()) {
+                            if (mAuth5.getCurrentUser().isEmailVerified()) {
                                 //  Intent finalIntent= new Intent(MainActivity.this,dashboard.class);
                                 userLogin.child(mAuth5.getCurrentUser().getUid()).addValueEventListener(new ValueEventListener() {
                                     @Override
@@ -370,9 +363,8 @@ private DatabaseReference userLogin;
                                             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                             startActivity(intent);
                                             finish();
-                                        } else
-                                            {
-                                                if (userType.equals("yes")) {
+                                        } else {
+                                            if (userType.equals("yes")) {
                                                 Intent finalIntent = new Intent(MainActivity.this, TutorDashboard.class);
                                                 finalIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                                 startActivity(finalIntent);
@@ -383,7 +375,7 @@ private DatabaseReference userLogin;
                                                 startActivity(finalIntent2);
                                                 finish();
                                             }
-                                            }
+                                        }
                                     }
 
                                     @Override
@@ -391,34 +383,30 @@ private DatabaseReference userLogin;
 
                                     }
                                 });
-                            }
-                            else
-                            {
-                                Toast.makeText(MainActivity.this,"Please verify your email Address",Toast.LENGTH_LONG).show();
-                          enableEdittext();
+                            } else {
+                                Toast.makeText(MainActivity.this, "Please verify your email Address", Toast.LENGTH_LONG).show();
+                                enableEdittext();
                             }
 
-                        } else
-                            {
+                        } else {
                             // there was an error
-                            Toast.makeText(MainActivity.this, task.getException().getLocalizedMessage(),Toast.LENGTH_LONG).show();
+                            Toast.makeText(MainActivity.this, task.getException().getLocalizedMessage(), Toast.LENGTH_LONG).show();
                             Log.e("MyTag", task.getException().toString());
-                           enableEdittext();
-                            }
+                            enableEdittext();
+                        }
                     }
                 });
     }
 
 
-    private void enableEdittext()
-    {
+    private void enableEdittext() {
         dialog.dismiss();
         dialog.setCanceledOnTouchOutside(false);
         inputEmail.setEnabled(true);
         inputPassword.setEnabled(true);
     }
-    private void disableEdittext()
-    {
+
+    private void disableEdittext() {
 
         dialog.show();
         dialog.setCanceledOnTouchOutside(false);
