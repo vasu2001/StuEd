@@ -40,7 +40,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/v2"
         app:layout_constraintStart_toStartOf="@+id/subjectList3"
-        app:layout_constraintTop_toTopOf="@+id/subjectList3"></TextView>
+        app:layout_constraintTop_toTopOf="@+id/subjectList3"/>
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/h2"

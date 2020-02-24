@@ -14,6 +14,7 @@
  import android.widget.EditText;
  import android.widget.ImageView;
  import android.widget.ProgressBar;
+ import android.widget.TextView;
  import android.widget.Toast;
 
  import androidx.annotation.NonNull;
@@ -75,10 +76,16 @@ private DatabaseReference reference;
             public void onClick(View view) {
                 final Dialog dialog=new Dialog(getView().getContext());
                 dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-                dialog.setContentView(R.layout.loading_fragment);
+                dialog.setContentView(R.layout.dialog_logout);
                 dialog.setCanceledOnTouchOutside(false);
                 dialog.show();
 
+                final TextView newusername = dialog.findViewById(R.id.textview17);
+                final ImageView saveButton = dialog.findViewById(R.id.save22);
+                final ImageView cancelButton = dialog.findViewById(R.id.cancel22);
+                saveButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
                         auth.signOut();
                         mGoogleSiginInClient.signOut().addOnCompleteListener(new OnCompleteListener<Void>() {
                             @Override
@@ -89,12 +96,19 @@ private DatabaseReference reference;
                                 intent3.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                 startActivity(intent3);
 
-                        Toast.makeText(getActivity(),"Signout success",Toast.LENGTH_LONG).show();
-                        Intent intent=new Intent(getActivity(), MainActivity.class);
-                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                        startActivity(intent);
+                                Toast.makeText(getActivity(),"Signout success",Toast.LENGTH_LONG).show();
+                                Intent intent=new Intent(getActivity(), MainActivity.class);
+                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                startActivity(intent);
+                            }
+                        });
                     }
-
+                });
+                cancelButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        dialog.dismiss();
+                    }
                 });
 
             }

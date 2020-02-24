@@ -1,12 +1,15 @@
 package com.stued.StuEd.Student_ui;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.ExpandableListView;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -58,6 +61,7 @@ public class TeacherDescription extends Fragment {
     private LayoutInflater layoutInflater;
     private String time;
     private String date;
+    private Dialog dialog;
 
     public TeacherDescription(LayoutInflater layoutInflater, DatabaseReference databaseReference) {
         this.layoutInflater = layoutInflater;
@@ -78,6 +82,11 @@ public class TeacherDescription extends Fragment {
         listitem = new HashMap<>();
         listItemVenue=new HashMap<>();
         listItemPreference=new HashMap<>();
+        dialog=new Dialog(getActivity());
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.dialog_payment);
+        dialog.setCanceledOnTouchOutside(false);
+        dialog.dismiss();
         final TextView emptyview=view.findViewById(R.id.empty_view2);
         emptyview.setVisibility(View.INVISIBLE);
         p = "";
@@ -172,24 +181,38 @@ public class TeacherDescription extends Fragment {
 
         expandableListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
             @Override
-            public boolean onChildClick(ExpandableListView expandableListView, View view, int groupPosition, int childPosition, long id) {
+            public boolean onChildClick(final ExpandableListView expandableListView, View view, final int groupPosition, final int childPosition, long id) {
                 //get price from Expandable List View
-                String s = expandableListView.getExpandableListAdapter().getChild(groupPosition, childPosition).toString();
 
-                if (s.equals("Slot filled")) return false;
+                dialog.show();
 
-                String[] arr = s.split("Rs. ", 2);
-                p = arr[1];
-                Log.w("fees=", p);
-                rate = Integer.parseInt(p) * 100;
-                price = Integer.toString(rate);
+                final TextView newusername = dialog.findViewById(R.id.textview17);
+                final ImageView saveButton = dialog.findViewById(R.id.save22);
+                final ImageView cancelButton = dialog.findViewById(R.id.cancel22);
 
-                time=arr[0].trim();
-                date=expandableListView.getExpandableListAdapter().getGroup(groupPosition).toString();
-
-                getOrderId();
-                startPayment();
-
+                final String s = expandableListView.getExpandableListAdapter().getChild(groupPosition, childPosition).toString();
+                if (s.equals("Slot filled"))
+                    return false;
+                saveButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        String[] arr = s.split("Rs. ", 2);
+                        p = arr[1];
+                        Log.w("fees=", p);
+                        rate = Integer.parseInt(p) * 100;
+                        price = Integer.toString(rate);
+                        time = arr[0].trim();
+                        date = expandableListView.getExpandableListAdapter().getGroup(groupPosition).toString();
+                        getOrderId();
+                        startPayment();
+                    }
+                });
+                cancelButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    dialog.dismiss();
+                }
+            });
                 return false;
             }
         });
@@ -265,7 +288,7 @@ public class TeacherDescription extends Fragment {
              * Merchant Name
              * eg: ACME Corp || HasGeek etc.
              */
-            options.put("name", "vasu");
+            options.put("name", "StuEd Solutions");
 
             /**
              * Description can be anything
@@ -284,6 +307,7 @@ public class TeacherDescription extends Fragment {
             options.put("amount", rate);
 
             checkout.open(activity, options);
+            dialog.dismiss();
         } catch (Exception e) {
             Log.e("ERROR=", "Error in starting Razorpay Checkout", e);
         }

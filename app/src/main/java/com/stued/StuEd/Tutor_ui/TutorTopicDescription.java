@@ -1,12 +1,14 @@
 package com.stued.StuEd.Tutor_ui;
 
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -52,6 +54,7 @@ public class TutorTopicDescription extends Fragment {
         slotButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 final String estimatedMarks= estmarks.getText().toString();
                 final String estimatedTime= estTime.getText().toString();
                 final String topicDescription = topicdescription.getText().toString();
@@ -61,9 +64,16 @@ public class TutorTopicDescription extends Fragment {
                 reference.child("estimatedMarks").setValue(estimatedMarks);
                 reference.child("estimatedTime").setValue(estimatedTime);
 
-                FragmentTransaction transaction = getFragmentManager().beginTransaction();
-                TutorSlots slotFragment = new TutorSlots(reference);
-                transaction.replace(R.id.fragmentContainer, slotFragment).commit();
+                if(TextUtils.isEmpty(estimatedMarks) || TextUtils.isEmpty(estimatedTime) || TextUtils.isEmpty(topicDescription))
+                {
+                    Toast.makeText(getActivity(), "Please fill all the fields", Toast.LENGTH_SHORT).show();
+                }
+                else {
+
+                    FragmentTransaction transaction = getFragmentManager().beginTransaction();
+                    TutorSlots slotFragment = new TutorSlots(reference);
+                    transaction.replace(R.id.fragmentContainer, slotFragment).commit();
+                }
 
             }
         });
