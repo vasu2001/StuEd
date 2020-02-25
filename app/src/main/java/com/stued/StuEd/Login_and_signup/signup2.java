@@ -258,8 +258,8 @@ public class signup2 extends AppCompatActivity implements View.OnClickListener {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    Users user = snapshot.getValue(Users.class);
-                    if (mPhonenoField.getText().toString().equals(user.PhoneNo)) {
+                    //Users user = snapshot.getValue(Users.class);
+                    if (mPhonenoField.getText().toString().equals(snapshot.child("phoneNo").getValue(String.class))) {
                         Toast.makeText(signup2.this, "This phone number is already linked with another account,Kindly use another phone number!!", Toast.LENGTH_LONG).show();
                         enableEdittext();
                         return;
