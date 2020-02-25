@@ -129,7 +129,7 @@ public class TutorSlotDetails extends Fragment{
                                         AppCompatActivity activity = (AppCompatActivity) view.getContext();
                                         Fragment myFragment = new attendance(databaseReference,student,otp);
                                         activity.getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer, myFragment,"FRAGMENT").addToBackStack("FRAGMENT_OTHER").commit();
-
+                                dialog.dismiss();
                                     }
                                 });
 
