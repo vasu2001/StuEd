@@ -1,10 +1,13 @@
 package com.stued.StuEd.Tutor_ui;
 
+import android.app.Dialog;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.Button;
+import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -25,6 +28,7 @@ public class attendance extends Fragment {
     private DatabaseReference databaseReference;
     final ArrayList<String> student,student1;
     final ArrayList<Integer> otp;
+    private Dialog dialog;
 
 
     public attendance(DatabaseReference databaseReference,ArrayList<String> student,final ArrayList<Integer> otp) {
@@ -49,20 +53,40 @@ public class attendance extends Fragment {
         //read  data here
 
 
-
+        dialog=new Dialog(getActivity());
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.dialog_payment);
+        dialog.setCanceledOnTouchOutside(false);
+        dialog.dismiss();
+        final ImageView saveButton = dialog.findViewById(R.id.save22);
+        final ImageView cancelButton = dialog.findViewById(R.id.cancel22);
 
         Button endslot=view.findViewById(R.id.endSlot);
         endslot.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String slotUID=databaseReference.getKey();
-                DatabaseReference studentReference = FirebaseDatabase.getInstance().getReference((new TinyDBorderID(getActivity())).getString("collegeName")).child("Users");
-                for(String studentUID: student){
-                    studentReference.child(studentUID).child("slots").child(slotUID).child("rating").setValue(0);
-                }
-                studentReference.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("slots").child(slotUID).child("attended").setValue(student.size()-student1.size());
+                dialog.show();
+                saveButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        String slotUID=databaseReference.getKey();
+                        DatabaseReference studentReference = FirebaseDatabase.getInstance().getReference((new TinyDBorderID(getActivity())).getString("collegeName")).child("Users");
+                        for(String studentUID: student){
+                            studentReference.child(studentUID).child("slots").child(slotUID).child("rating").setValue(0);
+                        }
+                        studentReference.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("slots").child(slotUID).child("attended").setValue(student.size()-student1.size());
 
-                //call cloud funcn for broadcast topic message using fsm
+                        //call cloud funcn for broadcast topic message using fsm
+
+                    }
+                });
+                cancelButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialog.dismiss();
+                    }
+                });
+
             }
         });
         return view;

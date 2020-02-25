@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/textview17"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="20dp"
+        android:layout_gravity="left"
+        android:text="  Are you sure you want to proceed?"
+        android:singleLine="true"
+        android:textColorHint="#000000"
+        android:fontFamily="@font/robotor"
+        android:textSize="18sp"/>
+
+    <TextView
+        android:id="@+id/textview199"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="left"
+        android:text="*Once you start this slot,no can buy this slot."
+        android:textStyle="bold"
+
+        android:textColorHint="#000000"
+        android:fontFamily="@font/robotor"
+        android:textSize="18sp"/>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    <ImageView
+        android:id="@+id/cancel23"
+        android:layout_width="120dp"
+        android:layout_height="25dp"
+        android:layout_gravity="center"
+
+        android:src="@drawable/no" />
+
+    <ImageView
+        android:id="@+id/save223"
+        android:layout_width="120dp"
+        android:layout_height="25dp"
+        android:layout_gravity="right"
+        android:src="@drawable/yes"
+        />
+
+
+        ></FrameLayout>
+</LinearLayout>

@@ -8,7 +8,7 @@ android {
         applicationId "com.stued.StuEd"
         minSdkVersion 19
         targetSdkVersion 29
-        versionCode 17
+        versionCode 18
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
@@ -54,7 +54,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-auth:19.2.0'
     implementation 'com.google.android.gms:play-services-auth:17.0.0'
     implementation 'com.facebook.android:facebook-android-sdk:[5,6)'
-    implementation 'com.google.firebase:firebase-database:19.2.0'
+
     implementation 'com.github.jakebonk:NotifyMe:1.0.1'
     implementation 'de.hdodenhof:circleimageview:3.1.0'
     implementation 'com.google.android.gms:play-services-auth:17.0.0'

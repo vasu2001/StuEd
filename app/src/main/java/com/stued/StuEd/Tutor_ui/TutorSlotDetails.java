@@ -32,6 +32,7 @@ public class TutorSlotDetails extends Fragment{
     //private LayoutInflater layoutInflater;
     private DatabaseReference databaseReference;
     private int attended;
+    private Dialog dialog;
 
     public TutorSlotDetails(DatabaseReference databaseReference,int attended) {
         this.databaseReference = databaseReference;
@@ -66,6 +67,13 @@ public class TutorSlotDetails extends Fragment{
             image.setClickable(false);
 
         }
+        dialog=new Dialog(getActivity());
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.startslotdialog);
+        dialog.setCanceledOnTouchOutside(false);
+        dialog.dismiss();
+        final ImageView yes = dialog.findViewById(R.id.save223);
+        final ImageView no = dialog.findViewById(R.id.cancel23);
 
         subjectName.setText(databaseReference.getParent().getParent().getParent().getKey());
         final ArrayList<String> student=new ArrayList<>();
@@ -100,6 +108,7 @@ public class TutorSlotDetails extends Fragment{
                     }
                 }
 
+
                 StudentsRegistered.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -109,18 +118,32 @@ public class TutorSlotDetails extends Fragment{
                     }
                 });
 
-                startSlotButton.setOnClickListener(new View.OnClickListener() {
+                        startSlotButton.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                dialog.show();
+                                yes.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        databaseReference.child("slotStatus").setValue(false);
+                                        AppCompatActivity activity = (AppCompatActivity) view.getContext();
+                                        Fragment myFragment = new attendance(databaseReference,student,otp);
+                                        activity.getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer, myFragment,"FRAGMENT").addToBackStack("FRAGMENT_OTHER").commit();
+
+                                    }
+                                });
+
+                            }
+                        });
+
+
+                no.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-
-                        databaseReference.child("slotStatus").setValue(false);
-
-                        AppCompatActivity activity = (AppCompatActivity) view.getContext();
-                        Fragment myFragment = new attendance(databaseReference,student,otp);
-                        activity.getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer, myFragment,"FRAGMENT").addToBackStack("FRAGMENT_OTHER").commit();
-
+                        dialog.dismiss();
                     }
                 });
+
             }
 
             @Override

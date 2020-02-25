@@ -436,7 +436,7 @@ public class TeacherDescription extends Fragment {
 
         NotifyMe notifyMe = new NotifyMe.Builder(getActivity())
                 .title("StuEd")
-                .content("Hey user,your slot begins in 1 hour")
+                .content("Hey user,your slot begins within in 1 hour")
                 .color(255, 0, 0, 255)
                 .led_color(255, 255, 255, 255)
                 .time(now)
