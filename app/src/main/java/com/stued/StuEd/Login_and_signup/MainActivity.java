@@ -220,6 +220,7 @@ public class MainActivity extends AppCompatActivity {
                                             startActivity(intent);
                                             finish();
                                         } else {
+                                            if (userType == null) userType = "";
                                             if (userType.equals("yes")) {
                                                 Intent finalIntent = new Intent(MainActivity.this, TutorDashboard.class);
                                                 finalIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -293,6 +294,7 @@ public class MainActivity extends AppCompatActivity {
                                 startActivity(intent);
                                 finish();
                             } else {
+                                if(userType==null)userType="";
                                 if (userType.equals("yes")) {
                                     Intent finalIntent = new Intent(MainActivity.this, TutorDashboard.class);
                                     finalIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
