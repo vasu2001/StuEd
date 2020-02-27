@@ -102,7 +102,7 @@ public class AccountFragment extends Fragment {
                 Bitmap bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), filePath);
                // profile.setImageBitmap(bitmap);
                 ByteArrayOutputStream stream=new ByteArrayOutputStream();
-                bitmap.compress(Bitmap.CompressFormat.PNG,35,stream);
+                bitmap.compress(Bitmap.CompressFormat.JPEG,35,stream);
 
               //  profile.setImageBitmap(bitmap);
                 byte[] byeArray=stream.toByteArray();
@@ -160,6 +160,7 @@ public class AccountFragment extends Fragment {
                 Picasso.get()
                         .load(uri)
                         .fit()
+                        .centerCrop()
                         .placeholder(R.drawable.usermaleicon)
                         .noFade()
                         .into(profile);

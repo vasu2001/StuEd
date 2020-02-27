@@ -5,33 +5,41 @@
     android:layout_width="match_parent"
     android:layout_height="75dp"
     android:layout_marginTop="5dp"
-    android:background="@drawable/testt"
     android:orientation="horizontal"
     android:id="@+id/pantx">
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:layout_width="60dp"
+        android:layout_height="75dp"
+        android:layout_marginLeft="20dp"
+        android:id="@+id/dp"
+        ></de.hdodenhof.circleimageview.CircleImageView>
+
 
 
     <TextView
         android:id="@+id/subjectName"
-        android:layout_width="141dp"
+        android:layout_width="140dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginLeft="85dp"
+        android:layout_marginLeft="10dp"
         android:layout_weight="1"
         android:ellipsize="marquee"
         android:focusableInTouchMode="true"
         android:fontFamily="@font/raleway"
         android:marqueeRepeatLimit="marquee_forever"
-        android:paddingLeft="15dp"
+        android:paddingLeft="5dp"
         android:scrollHorizontally="true"
         android:singleLine="true"
         android:text="Loading..."
         android:textColor="#000000"
-        android:textSize="24sp" />
-
+        android:textSize="20sp"
+        android:paddingRight="5dp"/>
+<!--
     <RatingBar
         android:id="@+id/ratingBar2"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="10dp"
         android:layout_marginTop="20dp"
         android:layout_marginRight="8dp"
         android:isIndicator="true"
@@ -44,15 +52,39 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.29000002" />
-
     <TextView
         android:id="@+id/currentRating"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="40dp"
-        android:layout_marginRight="10dp"
         android:layout_weight="1"
-        android:text="4.5/10"
+        android:text="4.5"
         android:textSize="18sp" />
+
+        -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/currentRating"
+        android:text="4.5"
+        android:layout_marginTop="40dp"
+        android:textSize="16sp"
+        />
+    <ImageView
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:src="@drawable/star"
+        android:layout_marginTop="40dp"
+        android:layout_marginLeft="5dp"
+        />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/numberofreview"
+        android:layout_marginTop="40dp"
+        android:textSize="16sp"
+        android:text=" | 120"
+        android:layout_marginRight="10dp"
+        />
 
 </LinearLayout>

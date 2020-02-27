@@ -93,6 +93,7 @@
         app:layout_constraintEnd_toStartOf="@+id/v2"
         app:layout_constraintTop_toTopOf="@+id/guideline99" />
 
+
     <TextView
         android:id="@+id/accountTag"
         android:layout_width="wrap_content"
