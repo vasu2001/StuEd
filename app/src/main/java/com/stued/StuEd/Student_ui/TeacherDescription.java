@@ -51,7 +51,7 @@ public class TeacherDescription extends Fragment {
     final private DatabaseReference databaseReference;
     private ExpandableListView expandableListView;
     private List<String> listgroup;
-    private HashMap<String, List<String>> listitem,listItemVenue,listItemPreference;
+    private HashMap<String, List<String>> listitem,listItemVenue,listItemPreference,listBooking;
     private MyExpandableListAdaptor adapter;
     private TextView estimatedMarks, topicDescription, topicName;
     private String p, price;
@@ -82,13 +82,14 @@ public class TeacherDescription extends Fragment {
         listitem = new HashMap<>();
         listItemVenue=new HashMap<>();
         listItemPreference=new HashMap<>();
+        listBooking=new HashMap<>();
         dialog=new Dialog(getActivity());
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.dialog_payment);
         dialog.setCanceledOnTouchOutside(false);
         dialog.dismiss();
         final TextView emptyview=view.findViewById(R.id.empty_view2);
-        emptyview.setVisibility(View.INVISIBLE);
+        emptyview.setVisibility(View.VISIBLE);
         p = "";
         price = "";
 
@@ -119,27 +120,45 @@ public class TeacherDescription extends Fragment {
                 List<String> newListItem = new ArrayList<String>();
                 List<String> newListItemPreference = new ArrayList<String>();
                 List<String> newListItemVenue = new ArrayList<String>();
+                List<String> newlistBooking = new ArrayList<String>();
+
                 for (SlotsClass slot : slots) {
                     if (!listgroup.contains(slot.date)) {
                         listgroup.add(slot.date);
                         listitem.put(slot.date, new ArrayList<String>());
                         listItemPreference.put(slot.date, new ArrayList<String>());
                         listItemVenue.put(slot.date, new ArrayList<String>());
+                        listBooking.put(slot.date, new ArrayList<String>());
+
                     }
+
                     newListItem = listitem.get(slot.date);
+                    newlistBooking = listBooking.get(slot.date);
+                    newListItemPreference = listItemPreference.get(slot.date);
+                    newListItemVenue = listItemVenue.get(slot.date);
+
                     if (newListItem == null) newListItem = new ArrayList<>();
                     if (newListItemPreference == null) newListItemPreference = new ArrayList<>();
                     if (newListItemVenue == null) newListItemVenue = new ArrayList<>();
+                    if (newlistBooking == null) newlistBooking = new ArrayList<>();
+
 
                     if(slot.slotStatus && slot.maxStudents > slot.currentStudents) {
                             newListItem.add(slot.time + "    Rs. " + slot.fees);
                             newListItemPreference.add(slot.genderPreference);
                             newListItemVenue.add(slot.venue2);
+                            newlistBooking.add(slot.currentStudents+"/"+slot.maxStudents);
                     }
 
                     listitem.put(slot.date, newListItem);
                     listItemVenue.put(slot.date, newListItemVenue);
                     listItemPreference.put(slot.date, newListItemPreference);
+                    listBooking.put(slot.date,newlistBooking);
+                }
+
+                for(int i=listgroup.size()-1;i>=0;i--){
+                    if(listitem.get(listgroup.get(i)).isEmpty())
+                        listgroup.remove(i);
                 }
 
                 if(listgroup.isEmpty())
@@ -158,14 +177,9 @@ public class TeacherDescription extends Fragment {
                     if(listitem.get(listGroup).isEmpty())
                         listgroup.remove(listGroup);
                 }*/
-
-                for(int i=listgroup.size()-1;i>=0;i--){
-                    if(listitem.get(listgroup.get(i)).isEmpty())
-                        listgroup.remove(i);
-                }
-
+                
                 if(view.getContext()!=null) {
-                    adapter = new MyExpandableListAdaptor(view.getContext(), listgroup, listitem, listItemPreference, listItemVenue);
+                    adapter = new MyExpandableListAdaptor(view.getContext(), listgroup, listitem, listItemPreference, listItemVenue,listBooking);
                     expandableListView.setAdapter(adapter);
                     expandableListView.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
                         @Override
@@ -192,7 +206,6 @@ public class TeacherDescription extends Fragment {
 
                 dialog.show();
 
-                final TextView newusername = dialog.findViewById(R.id.textview17);
                 final ImageView saveButton = dialog.findViewById(R.id.save22);
                 final ImageView cancelButton = dialog.findViewById(R.id.cancel22);
 
@@ -260,7 +273,6 @@ public class TeacherDescription extends Fragment {
         }
         );
         requestQueue.add(jar1);
-        TinyDBorderID tinyDBorderID=new TinyDBorderID(getActivity());
 
     }
 
