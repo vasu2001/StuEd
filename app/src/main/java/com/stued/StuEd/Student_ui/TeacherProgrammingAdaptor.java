@@ -66,9 +66,11 @@ public class TeacherProgrammingAdaptor extends RecyclerView.Adapter<TeacherProgr
                 float rating=0;
                 int noofr=0;
                 DecimalFormat df = new DecimalFormat("0.0");
-                if(dataSnapshot.child("noOfRating").getValue(Integer.class)!=0)rating=dataSnapshot.child("rating").getValue(Float.class)/dataSnapshot.child("noOfRating").getValue(Integer.class);
+                if(dataSnapshot.child("noOfRating").getValue(Integer.class)!=0) {
+                    noofr= dataSnapshot.child("noOfRating").getValue(Integer.class);
+                    rating = dataSnapshot.child("rating").getValue(Float.class) / noofr;
+                }
                 holder.currentRating.setText(String.valueOf(df.format(rating))+"/5");
-              if(dataSnapshot.child("noOfRating").getValue(Integer.class)!=0)noofr= dataSnapshot.child("noOfRating").getValue(Integer.class);
               holder.noOfrating.setText("("+String.valueOf(noofr)+")");
 
                StorageReference data=storageReference.child("profileImages").child(dataSnapshot.getKey());
