@@ -154,10 +154,16 @@ public class TeacherDescription extends Fragment {
                     expandableListView.setVisibility(View.VISIBLE);
                 }
 
-                for(String listGroup: listgroup){
+                /*for(String listGroup: listgroup){
                     if(listitem.get(listGroup).isEmpty())
                         listgroup.remove(listGroup);
+                }*/
+
+                for(int i=listgroup.size()-1;i>=0;i--){
+                    if(listitem.get(listgroup.get(i)).isEmpty())
+                        listgroup.remove(i);
                 }
+
                 if(view.getContext()!=null) {
                     adapter = new MyExpandableListAdaptor(view.getContext(), listgroup, listitem, listItemPreference, listItemVenue);
                     expandableListView.setAdapter(adapter);

@@ -36,7 +36,7 @@ public class StudentRegisteredAdapter extends RecyclerView.Adapter<StudentRegist
     @Override
     public programmingViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
-        View view=layoutInflater.inflate(R.layout.lists,parent,false);
+        View view=layoutInflater.inflate(R.layout.list_student,parent,false);
 
         return new programmingViewHolder(view);
     }
@@ -44,10 +44,22 @@ public class StudentRegisteredAdapter extends RecyclerView.Adapter<StudentRegist
     @Override
     public void onBindViewHolder(@NonNull final programmingViewHolder holder, int position) {
         String student_uid=data.get(position);
-        FirebaseDatabase.getInstance().getReference((new TinyDBorderID(context)).getString("collegeName")).child("Users").child(student_uid).addListenerForSingleValueEvent(new ValueEventListener() {
+        FirebaseDatabase.getInstance().getReference((new TinyDBorderID(context)).getString("collegeName")).child("Users").child(student_uid).child("Username").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                holder.subjectName.setText(dataSnapshot.child("Username").getValue(String.class));
+                holder.studentName.setText(dataSnapshot.getValue(String.class));
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+        FirebaseDatabase.getInstance().getReference((new TinyDBorderID(context)).getString("collegeName")).child("Users").child(student_uid).child("phoneNo").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                holder.studentPhone.setText(dataSnapshot.getValue(String.class));
             }
 
             @Override
@@ -65,11 +77,12 @@ public class StudentRegisteredAdapter extends RecyclerView.Adapter<StudentRegist
     }
 
     public class programmingViewHolder extends RecyclerView.ViewHolder{
-        TextView subjectName;
+        TextView studentName,studentPhone;
         LinearLayout linearLayout;
         public programmingViewHolder(@NonNull View itemView) {
             super(itemView);
-            subjectName=(TextView)itemView.findViewById(R.id.subjectName);
+            studentName=(TextView)itemView.findViewById(R.id.studentName);
+            studentPhone=itemView.findViewById(R.id.studentPhone);
             linearLayout=(LinearLayout)itemView.findViewById(R.id.pant);
         }
     }

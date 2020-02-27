@@ -25,24 +25,26 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
-public class TutorSlotDetails extends Fragment{
+public class TutorSlotDetails extends Fragment {
 
 
-    Button StudentsRegistered,startSlotButton;
+    Button StudentsRegistered, startSlotButton;
     //private LayoutInflater layoutInflater;
     private DatabaseReference databaseReference;
     private int attended;
     private Dialog dialog;
+    private boolean slotStatus;
 
-    public TutorSlotDetails(DatabaseReference databaseReference,int attended) {
+    public TutorSlotDetails(DatabaseReference databaseReference, int attended) {
         this.databaseReference = databaseReference;
-        this.attended=attended;
+        this.attended = attended;
+        this.slotStatus=true;
     }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        final View view=inflater.inflate(R.layout.activity_tutor_slot_details,container,false);
+        final View view = inflater.inflate(R.layout.activity_tutor_slot_details, container, false);
 
         final TextView
                 subjectName = view.findViewById(R.id.msubject),
@@ -56,18 +58,18 @@ public class TutorSlotDetails extends Fragment{
                 estimatedMarks = view.findViewById(R.id.estmarks);
         final String uid = databaseReference.getKey();
         //final ArrayList<String> studentUIDs=new ArrayList<>();
-        StudentsRegistered= (Button) view.findViewById(R.id.stuRegistered);
-        startSlotButton=(Button)view.findViewById(R.id.startSlotButton);
-        ImageView image = (ImageView) view.findViewById(R.id.edit);
+        StudentsRegistered = (Button) view.findViewById(R.id.stuRegistered);
+        startSlotButton = (Button) view.findViewById(R.id.startSlotButton);
+        final ImageView image = (ImageView) view.findViewById(R.id.edit);
 
-        if(attended!=-1) {
+        if (attended != -1) {
             startSlotButton.setVisibility(View.INVISIBLE);
             startSlotButton.setClickable(false);
             image.setVisibility(View.INVISIBLE);
             image.setClickable(false);
 
         }
-        dialog=new Dialog(getActivity());
+        dialog = new Dialog(getActivity());
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.startslotdialog);
         dialog.setCanceledOnTouchOutside(false);
@@ -76,8 +78,8 @@ public class TutorSlotDetails extends Fragment{
         final ImageView no = dialog.findViewById(R.id.cancel23);
 
         subjectName.setText(databaseReference.getParent().getParent().getParent().getKey());
-        final ArrayList<String> student=new ArrayList<>();
-        final ArrayList<Integer> otp=new ArrayList<>();
+        final ArrayList<String> student = new ArrayList<>();
+        final ArrayList<Integer> otp = new ArrayList<>();
 
         databaseReference.getParent().addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -85,23 +87,28 @@ public class TutorSlotDetails extends Fragment{
                 topicName.setText(dataSnapshot.child("topicName").getValue(String.class));
                 estimatedMarks.setText(dataSnapshot.child("estimatedMarks").getValue(String.class));
 
-                SlotsClass slotdata = dataSnapshot.child(uid).getValue(SlotsClass.class);
+                final SlotsClass slotdata = dataSnapshot.child(uid).getValue(SlotsClass.class);
 
-                fees.setText("Rs. "+slotdata.fees);
+                fees.setText("Rs. " + slotdata.fees);
                 date.setText(slotdata.date);
                 time.setText(slotdata.time);
                 venue1.setText(slotdata.venue1);
                 venue2.setText(slotdata.venue2);
-                maxStudents1.setText((slotdata.maxStudents)+"");
+                maxStudents1.setText((slotdata.maxStudents) + "");
+                slotStatus=slotdata.slotStatus;
 
-                if(slotdata.currentStudents==0)
-                {
-                    //student.add("No student added");
+                if(!slotStatus){
+                    image.setClickable(false);
+                    image.setVisibility(View.GONE);
+                    startSlotButton.setBackgroundResource(R.drawable.attendancebutton);
                 }
-                else{
-                    for(DataSnapshot studentSnapshot : dataSnapshot.child(uid).child("students").getChildren()){
+
+                if (slotdata.currentStudents == 0) {
+                    //student.add("No student added");
+                } else {
+                    for (DataSnapshot studentSnapshot : dataSnapshot.child(uid).child("students").getChildren()) {
                         student.add(studentSnapshot.getKey());
-                        if(!studentSnapshot.child("validated").getValue(Boolean.class))
+                        if (!studentSnapshot.child("validated").getValue(Boolean.class))
                             otp.add(studentSnapshot.child("otp").getValue(Integer.class));
                         else
                             otp.add(-1);
@@ -113,28 +120,39 @@ public class TutorSlotDetails extends Fragment{
                     @Override
                     public void onClick(View v) {
                         AppCompatActivity activity = (AppCompatActivity) view.getContext();
-                        Fragment myFragment = new ListOfStudents(student,maxStudents1.getText().toString());
-                        activity.getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer, myFragment,"FRAGMENT").addToBackStack("FRAGMENT_OTHER").commit();
+                        Fragment myFragment = new ListOfStudents(student, maxStudents1.getText().toString());
+                        activity.getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer, myFragment, "FRAGMENT").addToBackStack("FRAGMENT_OTHER").commit();
                     }
                 });
 
-                        startSlotButton.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                dialog.show();
-                                yes.setOnClickListener(new View.OnClickListener() {
-                                    @Override
-                                    public void onClick(View v) {
-                                        databaseReference.child("slotStatus").setValue(false);
-                                        AppCompatActivity activity = (AppCompatActivity) view.getContext();
-                                        Fragment myFragment = new attendance(databaseReference,student,otp);
-                                        activity.getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer, myFragment,"FRAGMENT").addToBackStack("FRAGMENT_OTHER").commit();
-                                dialog.dismiss();
-                                    }
-                                });
+                startSlotButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if(!slotStatus){
+                            AppCompatActivity activity = (AppCompatActivity) view.getContext();
+                            Fragment myFragment = new attendance(databaseReference, student, otp);
+                            activity.getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer, myFragment, "FRAGMENT").addToBackStack("FRAGMENT_OTHER").commit();
+                        }
+                        else {
+                            dialog.show();
+                            yes.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    databaseReference.child("slotStatus").setValue(false);
+                                    slotStatus = false;
+                                    image.setClickable(false);
+                                    startSlotButton.setBackgroundResource(R.drawable.attendancebutton);
+                                    image.setVisibility(View.GONE);
+                                    AppCompatActivity activity = (AppCompatActivity) view.getContext();
+                                    Fragment myFragment = new attendance(databaseReference, student, otp);
+                                    activity.getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer, myFragment, "FRAGMENT").addToBackStack("FRAGMENT_OTHER").commit();
+                                    dialog.dismiss();
+                                }
+                            });
+                        }
 
-                            }
-                        });
+                    }
+                });
 
 
                 no.setOnClickListener(new View.OnClickListener() {
@@ -152,13 +170,11 @@ public class TutorSlotDetails extends Fragment{
             }
         });
 
-        image.setOnClickListener(new View.OnClickListener()
-        {
+        image.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick( View view)
-            {
+            public void onClick(View view) {
 
-                final Dialog dialog=new Dialog(getView().getContext());
+                final Dialog dialog = new Dialog(getView().getContext());
 
                 dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
                 dialog.setContentView(R.layout.dialogslot);
@@ -188,8 +204,10 @@ public class TutorSlotDetails extends Fragment{
                                 updateMaxStudents = newMaxStudents.getText().toString(),
                                 updateVenue = newVenue1.getText().toString();
 
-                        if(!updateMaxStudents.isEmpty()) databaseReference.child("maxStudents").setValue(Integer.parseInt(updateMaxStudents));
-                        if(!updateVenue.isEmpty()) databaseReference.child("venue1").setValue(updateVenue);
+                        if (!updateMaxStudents.isEmpty())
+                            databaseReference.child("maxStudents").setValue(Integer.parseInt(updateMaxStudents));
+                        if (!updateVenue.isEmpty())
+                            databaseReference.child("venue1").setValue(updateVenue);
 
                         dialog.cancel();
                     }

@@ -72,7 +72,7 @@ public class listTeachers extends Fragment {
                     recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
                     TextView emptyview = view.findViewById(R.id.empty_view5);
                     if (teachersUID.isEmpty()) {
-                        emptyview.setText("No Topic Available!!");
+                        emptyview.setText("No Teacher Available!!");
                         emptyview.setVisibility(View.VISIBLE);
                         recyclerView.setVisibility(View.INVISIBLE);
                     } else {
