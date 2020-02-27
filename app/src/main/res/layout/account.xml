@@ -78,7 +78,6 @@
         android:isIndicator="true"
         android:numStars="5"
         android:paddingTop="10sp"
-        android:progressDrawable="@drawable/custom_ratingbar_selector"
         android:visibility="invisible"
         app:layout_constraintBottom_toTopOf="@+id/h1"
         app:layout_constraintEnd_toStartOf="@+id/v2"
