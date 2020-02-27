@@ -15,6 +15,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -73,27 +74,29 @@ public class TeacherProgrammingAdaptor extends RecyclerView.Adapter<TeacherProgr
                 holder.currentRating.setText(String.valueOf(df.format(rating))+"/5");
               holder.noOfrating.setText("("+String.valueOf(noofr)+")");
 
-               StorageReference data=storageReference.child("profileImages").child(dataSnapshot.getKey());
+               final StorageReference data=storageReference.child("profileImages").child(dataSnapshot.getKey());
                 data.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                     @Override
                     public void onSuccess(Uri uri) {
                         Picasso.get()
                                 .load(uri)
                                 .fit()
-                                .placeholder(R.drawable.usermaleicon)
                                 .centerCrop()
                                 .noFade()
                                 .into(holder.dp);
-
                     }
-                });
-
-                holder.dp.setOnClickListener(new View.OnClickListener() {
+                }).addOnFailureListener(new OnFailureListener() {
                     @Override
-                    public void onClick(View v) {
-                       // holder.dp.onTouchEvent(ne)
+                    public void onFailure(@NonNull Exception e) {
+                        Picasso.get()
+                                .load(R.drawable.usermaleicon)
+                                .fit()
+                                .centerCrop()
+                                .noFade()
+                                .into(holder.dp);
                     }
                 });
+
                 holder.linearLayout.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
