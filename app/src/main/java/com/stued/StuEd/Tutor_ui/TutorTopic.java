@@ -67,6 +67,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AnimationUtils;
+import android.view.animation.LayoutAnimationController;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -91,6 +93,8 @@ public class TutorTopic extends Fragment
     private DatabaseReference databaseReference;
     private ArrayList<String> topics=new ArrayList<>();
 
+    private LayoutAnimationController animation;
+
     public TutorTopic(DatabaseReference databaseReference) {
         this.databaseReference = databaseReference;
     }
@@ -104,6 +108,8 @@ public class TutorTopic extends Fragment
             container.removeAllViews();
         }
 
+        int resId = R.anim.layout_animation_fall_down;
+        animation = AnimationUtils.loadLayoutAnimation(getContext(), resId);
 
         //very imp
         final View view=inflater.inflate(R.layout.listtopics_fragment,container,false);
@@ -143,11 +149,9 @@ public class TutorTopic extends Fragment
                         }
                     });
                     RecyclerView recyclerView = view.findViewById(R.id.subjectList2);
-
                     emptyview.setVisibility(View.INVISIBLE);
                     recyclerView.setVisibility(View.VISIBLE);
-
-
+                    recyclerView.setLayoutAnimation(animation);
                     recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
                     recyclerView.setAdapter(programmingAdapter);
                 }

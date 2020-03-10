@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     android:background="@drawable/account">
 
+
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/h1"
         android:layout_width="wrap_content"
@@ -92,6 +93,7 @@
         android:src="@drawable/usermaleicon"
         app:layout_constraintEnd_toStartOf="@+id/v2"
         app:layout_constraintTop_toTopOf="@+id/guideline99" />
+
 
 
     <TextView
@@ -233,6 +235,7 @@
             android:textColor="@android:color/black"
             android:textSize="18sp"
             android:textStyle="bold" />
+
     </RelativeLayout>
 
     <ImageView
@@ -246,6 +249,16 @@
         app:layout_constraintTop_toTopOf="@+id/guideline99"
         app:layout_constraintVertical_bias="0.353"
         app:srcCompat="@drawable/pencil" />
+
+    <ImageView
+        android:id="@+id/expanded_image"
+        android:layout_width="300dp"
+        android:layout_height="300dp"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

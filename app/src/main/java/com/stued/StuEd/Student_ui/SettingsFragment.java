@@ -54,7 +54,7 @@ private DatabaseReference reference;
 
     @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable final ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         View view=inflater.inflate(R.layout.tutor_settings_fragment,container,false);
         changePhoneNo=view.findViewById(R.id.changePhoneNo2);
@@ -146,11 +146,6 @@ private DatabaseReference reference;
                                                 }
                                             }
                                         });
-                    }
-                    else
-                    {
-                        Toast.makeText(getActivity(),"Error!!",Toast.LENGTH_LONG).show();
-                        dialog.dismiss();
                     }
 
                 }

@@ -7,6 +7,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.view.animation.AnimationUtils;
+import android.view.animation.LayoutAnimationController;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -34,6 +36,7 @@ import java.util.Collections;
 public class TutorHome extends Fragment {
     View v;
     Button btn;
+      private LayoutAnimationController animation;
 
     Integer partition(@NonNull ArrayList<String> arr1,@NonNull ArrayList<Integer> arr2, Integer low, Integer high)
     {
@@ -92,6 +95,9 @@ public class TutorHome extends Fragment {
         final RecyclerView recyclerView=v.findViewById(R.id.subjectList2);
         final TextView emptyview=v.findViewById(R.id.empty_view3);
         emptyview.setVisibility(View.INVISIBLE);
+        int resId = R.anim.layout_animation_fall_down;
+        animation = AnimationUtils.loadLayoutAnimation(getContext(), resId);
+
         userReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -105,6 +111,7 @@ public class TutorHome extends Fragment {
                     }
                     sort(slots,attended,0,slots.size()-1);
                     if(v.getContext()!=null) {
+                        recyclerView.setLayoutAnimation(animation);
                         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
                         SlotsProgrammingAdaptor programmingAdapter = new SlotsProgrammingAdaptor(v.getContext(), slots, attended);
                         recyclerView.setAdapter(programmingAdapter);

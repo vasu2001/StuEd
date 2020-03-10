@@ -4,6 +4,8 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AnimationUtils;
+import android.view.animation.LayoutAnimationController;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -27,6 +29,7 @@ import java.util.Collections;
 
 public class SearchFragment extends Fragment {
     View v;
+    private LayoutAnimationController animation;
 
     int partition(ArrayList<SlotBookingClass> arr, int low, int high) {
         int pivot = arr.get(high).rating;
@@ -73,6 +76,9 @@ public class SearchFragment extends Fragment {
         DatabaseReference userReference = FirebaseDatabase.getInstance().getReference((new TinyDBorderID(getActivity())).getString("collegeName")).child("Users").child(FirebaseAuth.getInstance().getUid()).child("slots");
         final RecyclerView recyclerView = v.findViewById(R.id.subjectList2);
         final TextView emptyview = v.findViewById(R.id.empty_view3);
+        int resId = R.anim.layout_animation_fall_down;
+        animation = AnimationUtils.loadLayoutAnimation(getContext(), resId);
+
 
         userReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -96,6 +102,7 @@ public class SearchFragment extends Fragment {
                 if (v.getContext() != null) {
                     recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
                     BookedSlotProgrammingAdapter programmingAdapter = new BookedSlotProgrammingAdapter(v.getContext(), slots);
+                    recyclerView.setLayoutAnimation(animation);
                     recyclerView.setAdapter(programmingAdapter);
                 }
 

@@ -1,7 +1,5 @@
 package com.stued.StuEd.Login_and_signup;
-
 import android.os.Bundle;
-
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.stued.StuEd.R;

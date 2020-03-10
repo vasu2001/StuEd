@@ -8,9 +8,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.view.animation.AnimationUtils;
+import android.view.animation.LayoutAnimationController;
 import android.widget.ExpandableListView;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -62,6 +65,7 @@ public class TeacherDescription extends Fragment {
     private String time;
     private String date;
     private Dialog dialog;
+    private LayoutAnimationController animation;
 
     public TeacherDescription(LayoutInflater layoutInflater, DatabaseReference databaseReference) {
         this.layoutInflater = layoutInflater;
@@ -92,6 +96,9 @@ public class TeacherDescription extends Fragment {
         emptyview.setVisibility(View.VISIBLE);
         p = "";
         price = "";
+        int resId = R.anim.layout_animation_fall_down;
+        animation = AnimationUtils.loadLayoutAnimation(getContext(), resId);
+
 
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
@@ -180,6 +187,7 @@ public class TeacherDescription extends Fragment {
                 
                 if(view.getContext()!=null) {
                     adapter = new MyExpandableListAdaptor(view.getContext(), listgroup, listitem, listItemPreference, listItemVenue,listBooking);
+                    expandableListView.setLayoutAnimation(animation);
                     expandableListView.setAdapter(adapter);
                     expandableListView.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
                         @Override
@@ -222,8 +230,14 @@ public class TeacherDescription extends Fragment {
                         price = Integer.toString(rate);
                         time = arr[0].trim();
                         date = expandableListView.getExpandableListAdapter().getGroup(groupPosition).toString();
-                        getOrderId();
-                        startPayment();
+                        if(rate==0)
+                        {
+                            startfreepayment("free");
+                        }
+                        else {
+                            getOrderId();
+                            startPayment();
+                        }
                     }
                 });
                 cancelButton.setOnClickListener(new View.OnClickListener() {
@@ -236,6 +250,54 @@ public class TeacherDescription extends Fragment {
             }
         });
         return view;
+    }
+
+    public void startfreepayment(final String razorpayPaymentID)
+    {
+        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+        final String uid = firebaseAuth.getCurrentUser().getUid();
+        final DatabaseReference userReference = FirebaseDatabase.getInstance().getReference((new TinyDBorderID(getActivity())).getString("collegeName")).child("Users").child(uid).child("slots");
+
+        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot slotSnapshot : dataSnapshot.getChildren()) {
+                    SlotsClass slot = slotSnapshot.getValue(SlotsClass.class);
+                    if (slot != null && date.equals(slot.date) && time.equals(slot.time))
+                    {
+                        String slot_uid;
+                        ArrayList<String> students = new ArrayList<>();
+                        slot_uid = slotSnapshot.getKey();
+                        slot.currentStudents++;
+                        databaseReference.child(slot_uid).child("students").child(uid).child("otp").setValue(Math.floor(Math.random() * 100000));
+                        databaseReference.child(slot_uid).child("students").child(uid).child("validated").setValue(false);
+                        databaseReference.child(slot_uid).child("currentStudents").setValue(slot.currentStudents);
+                        String date44 = slot.date.replace('/', '-');
+                        String time44 = slot.time;
+                        try {
+                            checkTimeForEdit(time44, date44);
+                        } catch (ParseException e) {
+                            e.printStackTrace();
+                        }
+
+                        SlotBookingClass bookedSlot = new SlotBookingClass(URLDecoder.decode(databaseReference.child(slot_uid).toString().substring(databaseReference.getRoot().toString().length())), razorpayPaymentID);
+                        userReference.child(slot_uid).setValue(bookedSlot);
+
+                        //FirebaseMessaging.getInstance().subscribeToTopic(slot_uid);
+
+                        break;
+                    }
+
+                }
+                Toast.makeText(getContext(),"Your slot has been booked!!",Toast.LENGTH_LONG).show();
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
     }
 
     public void getOrderId()
@@ -276,8 +338,6 @@ public class TeacherDescription extends Fragment {
 
     }
 
-
-
     public void startPayment() {
         /**
          * Instantiate Checkout
@@ -314,7 +374,7 @@ public class TeacherDescription extends Fragment {
              *     Invoice Payment
              *     etc.
              */
-            options.put("description", "Reference No. #123456");
+            options.put("description", "Reference No. #"+Math.floor(Math.random()*1000000));
              options.put("order_id", tinyDBorderID.getString("orderId"));
             options.put("currency", "INR");
 
@@ -431,7 +491,6 @@ public class TeacherDescription extends Fragment {
         String day = dateParts[0];
         String month = dateParts[1];
         String year = dateParts[2];
-
         String[] arrOfStr3 = notifytime.split(":", 2);
         String[] arrOfStr4 = arrOfStr3[1].split(" ", 2);
         String a2 = arrOfStr[0];
@@ -445,13 +504,13 @@ public class TeacherDescription extends Fragment {
         now.set(Calendar.HOUR_OF_DAY, hour2);
         now.set(Calendar.MINUTE, min2);
         now.set(Calendar.SECOND, 0);
+
         if (ampm2.equals("PM"))
             now.set(Calendar.AM_PM, 1);
         else
             now.set(Calendar.AM_PM, 0);
 
         Log.i("dataoutput=", notifytime + " " + datenotify);
-
         NotifyMe notifyMe = new NotifyMe.Builder(getActivity())
                 .title("StuEd")
                 .content("Hey user,your slot begins within in 1 hour")
@@ -463,6 +522,4 @@ public class TeacherDescription extends Fragment {
                 .rrule("FREQ=MINUTELY;INTERVAL=5;COUNT=2")
                 .build();
     }
-
-
 }

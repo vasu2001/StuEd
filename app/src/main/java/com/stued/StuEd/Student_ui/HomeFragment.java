@@ -1,13 +1,17 @@
 package com.stued.StuEd.Student_ui;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AnimationUtils;
+import android.view.animation.LayoutAnimationController;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -31,9 +35,11 @@ import static androidx.constraintlayout.widget.Constraints.TAG;
 public class HomeFragment extends Fragment {
     RecyclerView recyclerView;
     Spinner branch, semester;
+    private TextView emptyView;
     View Home;
     private String semesterValue, branchValue;
     private List<String> subjects;
+    private LayoutAnimationController animation;
 
     @Nullable
     @Override
@@ -105,13 +111,18 @@ public class HomeFragment extends Fragment {
         semester = Home.findViewById(R.id.semester);
         branch = Home.findViewById(R.id.branch);
         recyclerView = Home.findViewById(R.id.subjectList);
+        emptyView=Home.findViewById(R.id.empty_view6);
         semesterValue = "1";
         branchValue = "ECE";
         subjects = new ArrayList<>();
+        int resId = R.anim.layout_animation_fall_down;
+        animation = AnimationUtils.loadLayoutAnimation(getContext(), resId);
+
     }
 
     private void listFetcher() {
-
+        recyclerView.setVisibility(View.INVISIBLE);
+        emptyView.setVisibility(View.VISIBLE);
         final DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference((new TinyDBorderID(getActivity())).getString("collegeName")).child("Slots").child(branchValue.trim()).child(semesterValue.trim());
         final DatabaseReference subjectReference= FirebaseDatabase.getInstance().getReference((new TinyDBorderID(getActivity())).getString("collegeName")).child("Subjects").child(branchValue.trim()+"_"+semesterValue.trim());
         subjectReference.addValueEventListener(new ValueEventListener() {
@@ -124,7 +135,21 @@ public class HomeFragment extends Fragment {
                     Log.i(TAG, "onDataChange1: " + subjectSnapshot.getKey());
                 }
                 if(Home.getContext()!=null) {
+                    if(subjects.isEmpty())
+                    {
+                        emptyView.setText("No Subjects");
+                        emptyView.setVisibility(View.VISIBLE);
+                        recyclerView.setVisibility(View.INVISIBLE);
+                    }
+                    else
+                    {
+                        emptyView.setText("Loading...");
+                        emptyView.setVisibility(View.INVISIBLE);
+                        recyclerView.setVisibility(View.VISIBLE);
+                    }
+
                     recyclerView.setLayoutManager(new LinearLayoutManager(Home.getContext()));
+                    recyclerView.setLayoutAnimation(animation);
                     programmingAdapter listAdapter = new programmingAdapter(Home.getContext(), subjects, databaseReference);
                     recyclerView.setAdapter(listAdapter);
                 }
@@ -139,6 +164,8 @@ public class HomeFragment extends Fragment {
 
 
     }
+
+
 
 
 }

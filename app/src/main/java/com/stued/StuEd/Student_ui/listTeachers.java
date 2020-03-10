@@ -5,6 +5,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AnimationUtils;
+import android.view.animation.LayoutAnimationController;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -24,6 +26,7 @@ import java.util.ArrayList;
 public class listTeachers extends Fragment {
 
     private DatabaseReference databaseReference;
+    private LayoutAnimationController animation;
 
     public listTeachers(DatabaseReference databaseReference) {
         this.databaseReference = databaseReference;
@@ -37,6 +40,8 @@ public class listTeachers extends Fragment {
             getActivity().getFragmentManager().popBackStack();
             container.removeAllViews();
         }
+        int resId = R.anim.layout_animation_fall_down;
+        animation = AnimationUtils.loadLayoutAnimation(getContext(), resId);
 
         final View view=inflater.inflate(R.layout.list_teacher_fragment,container,false);
 
@@ -81,6 +86,7 @@ public class listTeachers extends Fragment {
                     }
 
                     TeacherProgrammingAdaptor programmingAdapter = new TeacherProgrammingAdaptor(getContext(), teachersUID, databaseReference);
+                    recyclerView.setLayoutAnimation(animation);
                     recyclerView.setAdapter(programmingAdapter);
                 }
 

@@ -62,8 +62,9 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+        setTheme(R.style.AppTheme);
         setContentView(R.layout.activity_main);
+        super.onCreate(savedInstanceState);
         answer = "";
         op = "yes";
         TinyDBorderID tinyDBorderID = new TinyDBorderID(this);
@@ -119,7 +120,9 @@ public class MainActivity extends AppCompatActivity {
                 signInToGoogle();
             }
         });
+
         checkcurrentuser();
+
     }
 
     public void signInToGoogle() {
@@ -265,8 +268,6 @@ public class MainActivity extends AppCompatActivity {
         disableEdittext();
         //check current user
         final FirebaseUser user = mAuth5.getCurrentUser();
-
-
         if (user != null && mAuth5.getCurrentUser().isEmailVerified()) {
             new Handler().postDelayed(new Runnable() {
                 @Override
@@ -318,15 +319,16 @@ public class MainActivity extends AppCompatActivity {
 
                         }
                     });
-                }
-            }, 0);
+                }//
+            }, 0);//
 
 
-        } else {
+        } else
+            {
             // User is signed out
             Log.d("status=", "onAuthStateChanged:signed_out");
             enableEdittext();
-        }
+            }
 
 
     }

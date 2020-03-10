@@ -7,6 +7,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AnimationUtils;
+import android.view.animation.LayoutAnimationController;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -31,6 +33,7 @@ public class listtopics extends Fragment {
     private DatabaseReference databaseReference;
     private ArrayList<String> topics = new ArrayList<>();
     listtopicadapter adapter;
+    private LayoutAnimationController animation;
 
     public listtopics(DatabaseReference databaseReference) {
         this.databaseReference = databaseReference;
@@ -44,6 +47,8 @@ public class listtopics extends Fragment {
             container.removeAllViews();
         }
 
+        int resId = R.anim.layout_animation_fall_down;
+        animation = AnimationUtils.loadLayoutAnimation(getContext(), resId);
 
         //very imp
         final View view = inflater.inflate(R.layout.listtopics_fragment, container, false);
@@ -96,6 +101,7 @@ public class listtopics extends Fragment {
                         recyclerView.setVisibility(View.VISIBLE);
                     }
                     recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+                    recyclerView.setLayoutAnimation(animation);
                     recyclerView.setAdapter(programmingAdapter);
                 }
             }

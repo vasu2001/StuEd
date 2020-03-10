@@ -1,14 +1,19 @@
 package com.stued.StuEd.Student_ui;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -17,9 +22,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
+import com.stued.StuEd.Model_Classes.PhotoFullPopupWindow;
 import com.stued.StuEd.Model_Classes.TinyDBorderID;
 import com.stued.StuEd.R;
 import com.google.firebase.database.DataSnapshot;
@@ -28,6 +35,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.io.File;
+import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.List;
 
@@ -39,6 +48,7 @@ public class TeacherProgrammingAdaptor extends RecyclerView.Adapter<TeacherProgr
     private LayoutInflater layoutInflater;
     final private DatabaseReference databaseReference;
     private Context context;
+    private int i=0;
     public TeacherProgrammingAdaptor(Context context, List<String> data, DatabaseReference databaseReference)
     {
         this.data=data;
@@ -82,8 +92,10 @@ public class TeacherProgrammingAdaptor extends RecyclerView.Adapter<TeacherProgr
                                 .load(uri)
                                 .fit()
                                 .centerCrop()
+                                .placeholder(R.drawable.usermaleicon)
                                 .noFade()
                                 .into(holder.dp);
+
                     }
                 }).addOnFailureListener(new OnFailureListener() {
                     @Override
@@ -97,6 +109,38 @@ public class TeacherProgrammingAdaptor extends RecyclerView.Adapter<TeacherProgr
                     }
                 });
 
+                holder.dp.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(final View v) {
+                        final Dialog dialog=new Dialog(v.getContext());
+                        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                        dialog.setContentView(R.layout.loading_fragment);
+                        dialog.setCanceledOnTouchOutside(false);
+                        dialog.show();
+                        final TinyDBorderID path3=new TinyDBorderID(context);
+                        try {
+                            final File localFile = File.createTempFile("Images", "bmp");
+                            int p=0;
+                            data.getFile(localFile).addOnSuccessListener(new OnSuccessListener< FileDownloadTask.TaskSnapshot >() {
+                                @Override
+                                public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+
+                                    new PhotoFullPopupWindow(context, R.layout.popup_photo_full, v,localFile.toString(),null);
+                                    dialog.dismiss();
+                                }
+                            }).addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    Toast.makeText(context,"No Image To Load!!", Toast.LENGTH_LONG).show();
+                                    dialog.dismiss();
+                                }
+                            });
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+
+                    }
+                });
                 holder.linearLayout.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {

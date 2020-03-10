@@ -1,8 +1,10 @@
 package com.stued.StuEd.Student_ui;
 
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -11,6 +13,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
@@ -22,7 +25,10 @@ import androidx.fragment.app.Fragment;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.google.firebase.storage.FileDownloadTask;
 import com.squareup.picasso.Picasso;
+import com.stued.StuEd.GlideApp;
+import com.stued.StuEd.Model_Classes.PhotoFullPopupWindow;
 import com.stued.StuEd.Model_Classes.TinyDBorderID;
 import com.stued.StuEd.R;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -39,9 +45,13 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.IOException;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 import static android.app.Activity.RESULT_OK;
+import static android.provider.ContactsContract.CommonDataKinds.Website.URL;
 
 
 public class AccountFragment extends Fragment {
@@ -54,9 +64,13 @@ public class AccountFragment extends Fragment {
     private final int PICK_IMAGE_REQUEST = 71;
     private Uri filePath;
     private byte[] mupload;
+    private CircleImageView dp;
+    private Bitmap bitmapmain;
+    private String imgUrl=null;
 
     //FirebaseStorage storage;
     private StorageReference storageReference;
+
 
 
     @Nullable
@@ -64,6 +78,7 @@ public class AccountFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         View view=inflater.inflate(R.layout.account,container,false);
+
         return view;
     }
 
@@ -75,10 +90,44 @@ public class AccountFragment extends Fragment {
         init();
         setValues();
 
+
         editpic.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 chooseImage();
+            }
+        });
+        profile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(final View v) {
+                final Dialog dialog=new Dialog(v.getContext());
+                dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                dialog.setContentView(R.layout.loading_fragment);
+                dialog.setCanceledOnTouchOutside(false);
+                dialog.show();
+                final TinyDBorderID path3=new TinyDBorderID(getContext());
+                try {
+                    final File localFile = File.createTempFile("Images", "bmp");
+                    int p=0;
+                    StorageReference data=storageReference.child("profileImages").child(mAuth.getCurrentUser().getUid());
+                    data.getFile(localFile).addOnSuccessListener(new OnSuccessListener< FileDownloadTask.TaskSnapshot >() {
+                        @Override
+                        public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+
+                            new PhotoFullPopupWindow(getContext(), R.layout.popup_photo_full, v,localFile.toString(),null);
+                            dialog.dismiss();
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Toast.makeText(getContext(),"no image!!", Toast.LENGTH_LONG).show();
+                            dialog.dismiss();
+                        }
+                    });
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
             }
         });
 
@@ -99,12 +148,14 @@ public class AccountFragment extends Fragment {
         {
             filePath = data.getData();
             try {
-                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), filePath);
+                bitmapmain = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), filePath);
                // profile.setImageBitmap(bitmap);
                 ByteArrayOutputStream stream=new ByteArrayOutputStream();
-                bitmap.compress(Bitmap.CompressFormat.JPEG,35,stream);
-
-              //  profile.setImageBitmap(bitmap);
+                bitmapmain.compress(Bitmap.CompressFormat.JPEG,35,stream);
+                TinyDBorderID dpPath=new TinyDBorderID(getContext());
+                dpPath.putImageWithFullPath(filePath.toString(),bitmapmain);
+                dpPath.putString("path",filePath.toString());
+               profile.setImageBitmap(bitmapmain);
                 byte[] byeArray=stream.toByteArray();
                 upload(byeArray);
             }
@@ -153,7 +204,7 @@ public class AccountFragment extends Fragment {
         userData = FirebaseDatabase.getInstance().getReference((new TinyDBorderID(getActivity())).getString("collegeName")).child("Users");
         emailAC.setText(mAuth.getCurrentUser().getEmail());
         emailAC.setSelected(true);
-        StorageReference data=storageReference.child("profileImages").child(mAuth.getCurrentUser().getUid());
+       StorageReference data=storageReference.child("profileImages").child(mAuth.getCurrentUser().getUid());
         data.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override
             public void onSuccess(Uri uri) {
@@ -164,12 +215,13 @@ public class AccountFragment extends Fragment {
                         .placeholder(R.drawable.usermaleicon)
                         .noFade()
                         .into(profile);
-
             }
         });
 
 
-       userData.child(mAuth.getCurrentUser().getUid()).addValueEventListener(new ValueEventListener() {
+
+
+        userData.child(mAuth.getCurrentUser().getUid()).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if(dataSnapshot.exists())
@@ -213,9 +265,8 @@ public class AccountFragment extends Fragment {
         accountTag=v.findViewById(R.id.accountTag);
         editpic=v.findViewById(R.id.editprofilepic);
         profile=v.findViewById(R.id.profile_picture);
+      //  dp=v.findViewById(R.id.profile_picture);
         storageReference =FirebaseStorage.getInstance().getReference();
-
-
     }
 
 

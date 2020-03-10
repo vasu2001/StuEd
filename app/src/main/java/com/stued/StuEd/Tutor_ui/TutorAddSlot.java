@@ -1,60 +1,3 @@
-/*
-package com.example.nnnnn;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
-import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-
-import java.util.ArrayList;
-
-public class TutorAddSlot extends Fragment {
-    @Nullable
-    @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState)
-    {
-        //very imp
-        View view=inflater.inflate(R.layout.activity_tutor_add_slot,container,false);
-        //list
-        ArrayList<String> subjects=new ArrayList<>();
-        subjects.add("Maths");
-        subjects.add("Electrical Science");
-        subjects.add("Analog Electronics");
-        subjects.add("Signal & Systems");
-        subjects.add("Economics");
-        subjects.add("EVS");
-        subjects.add("Economics");
-        subjects.add("EVS");
-        subjects.add("Economics");
-        subjects.add("EVS");
-        subjects.add("Economics");
-        subjects.add("EVS");
-        subjects.add("Economics");
-        subjects.add("EVS");
-
-        RecyclerView recyclerView=view.findViewById(R.id.subjectList2);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        tprogAdapter programmingAdapter=new tprogAdapter(getActivity(),subjects);
-        recyclerView.setAdapter(programmingAdapter);
-
-        //spinner
-        */
-/*Spinner spinner1=view.findViewById(R.id.spinner);
-        Spinner spinner2=view.findViewById(R.id.spinner3);*//*
-
-
-        return view;
-    }
-}
-*/
-
 package com.stued.StuEd.Tutor_ui;
 
 import android.os.Bundle;
@@ -62,9 +5,12 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AnimationUtils;
+import android.view.animation.LayoutAnimationController;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -86,12 +32,13 @@ import java.util.List;
 import static androidx.constraintlayout.widget.Constraints.TAG;
 
 public class TutorAddSlot extends Fragment {
-    RecyclerView recyclerView;
+  private   RecyclerView recyclerView;
     Spinner branch, semester;
+    private TextView emptyView;
     View Home;
     private String semesterValue, branchValue;
     private List<String> subjects;
-
+    private LayoutAnimationController animation;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -110,7 +57,8 @@ public class TutorAddSlot extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         this.Home = view;
         final TinyDBorderID tinyDBorderID = new TinyDBorderID(getActivity());
-
+        int resId = R.anim.layout_animation_fall_down;
+        animation = AnimationUtils.loadLayoutAnimation(getContext(), resId);
         ArrayAdapter<CharSequence> adapter1 = ArrayAdapter.createFromResource(getActivity(), R.array.Branch, android.R.layout.simple_spinner_item);
         adapter1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         branch.setAdapter(adapter1);
@@ -166,10 +114,13 @@ public class TutorAddSlot extends Fragment {
         semesterValue = "1";
         branchValue = "ECE";
         subjects = new ArrayList<>();
+        emptyView=Home.findViewById(R.id.empty_view6);
     }
 
     private void listFetcher() {
 
+        recyclerView.setVisibility(View.INVISIBLE);
+        emptyView.setVisibility(View.VISIBLE);
         String collegeName = (new TinyDBorderID(getActivity())).getString("collegeName");
         final DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference(collegeName).child("Slots").child(branchValue.trim()).child(semesterValue.trim());
         final DatabaseReference subjectReference = FirebaseDatabase.getInstance().getReference(collegeName).child("Subjects").child(branchValue.trim()+"_"+semesterValue.trim());
@@ -178,12 +129,27 @@ public class TutorAddSlot extends Fragment {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 subjects.clear();
+
                 Log.i(TAG, branchValue + semesterValue + dataSnapshot.getChildrenCount());
                 for (DataSnapshot subjectSnapshot : dataSnapshot.getChildren()) {
                     subjects.add(subjectSnapshot.getKey());
                     Log.i(TAG, "onDataChange1: " + subjectSnapshot.getKey());
                 }
+
                 if(Home.getContext()!=null) {
+                    if(subjects.isEmpty())
+                    {
+                        emptyView.setText("No Subjects");
+                        emptyView.setVisibility(View.VISIBLE);
+                        recyclerView.setVisibility(View.INVISIBLE);
+                    }
+                    else
+                    {
+                        emptyView.setText("Loading...");
+                        emptyView.setVisibility(View.INVISIBLE);
+                        recyclerView.setVisibility(View.VISIBLE);
+                    }
+                    recyclerView.setLayoutAnimation(animation);
                     recyclerView.setLayoutManager(new LinearLayoutManager(Home.getContext()));
                     tprogAdapter listAdapter = new tprogAdapter(Home.getContext(), subjects, databaseReference);
                     recyclerView.setAdapter(listAdapter);

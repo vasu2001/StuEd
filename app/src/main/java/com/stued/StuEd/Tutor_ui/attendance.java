@@ -6,6 +6,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.view.animation.AnimationUtils;
+import android.view.animation.LayoutAnimationController;
 import android.widget.Button;
 import android.widget.ImageView;
 
@@ -29,6 +31,7 @@ public class attendance extends Fragment {
     final ArrayList<String> student,student1;
     final ArrayList<Integer> otp;
     private Dialog dialog;
+    private LayoutAnimationController animation;
 
 
     public attendance(DatabaseReference databaseReference,ArrayList<String> student,final ArrayList<Integer> otp) {
@@ -42,9 +45,12 @@ public class attendance extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         final View view=inflater.inflate(R.layout.attendance_otp,container,false);
+        int resId = R.anim.layout_animation_fall_down;
+        animation = AnimationUtils.loadLayoutAnimation(getContext(), resId);
 
         if(view.getContext()!=null) {
             RecyclerView recyclerView = view.findViewById(R.id.studentOTPlist);
+            recyclerView.setLayoutAnimation(animation);
             recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
             attendanceAdapter programmingAdapter = new attendanceAdapter(student1, otp, databaseReference);
             recyclerView.setAdapter(programmingAdapter);

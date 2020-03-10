@@ -13,6 +13,7 @@
         android:layout_height="75dp"
         android:layout_marginLeft="20dp"
         android:id="@+id/dp"
+        android:src="@drawable/usermaleicon"
         ></de.hdodenhof.circleimageview.CircleImageView>
 
 

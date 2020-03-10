@@ -4,6 +4,8 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AnimationUtils;
+import android.view.animation.LayoutAnimationController;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -20,6 +22,7 @@ public class ListOfStudents extends Fragment {
 
     private ArrayList<String> studentUID;
     String currentStudents,maxStudents;
+    private LayoutAnimationController animation;
 
     public ListOfStudents(ArrayList<String> student, String maxStudents) {
         this.studentUID = student;
@@ -31,12 +34,15 @@ public class ListOfStudents extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         final View view=inflater.inflate(R.layout.activity_list_of_students,container,false);
+        int resId = R.anim.layout_animation_fall_down;
+        animation = AnimationUtils.loadLayoutAnimation(getContext(), resId);
 
         TextView studentCount = view.findViewById(R.id.numstudents);
         studentCount.setText(currentStudents+"/"+maxStudents);
 
         if(view.getContext()!=null) {
             RecyclerView recyclerView = view.findViewById(R.id.subjectList);
+            recyclerView.setLayoutAnimation(animation);
             recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
             StudentRegisteredAdapter programmingAdapter = new StudentRegisteredAdapter(view.getContext(), studentUID);
             TextView emptyView = view.findViewById(R.id.empty_view1);
@@ -51,6 +57,7 @@ public class ListOfStudents extends Fragment {
                 emptyView.setVisibility(View.GONE);
 
             }
+
             recyclerView.setAdapter(programmingAdapter);
         }
 

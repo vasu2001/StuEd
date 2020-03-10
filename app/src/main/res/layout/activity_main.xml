@@ -30,7 +30,7 @@
             app:layout_constraintEnd_toStartOf="@+id/guidelinev2"
             app:layout_constraintStart_toStartOf="@+id/guidelinev1"
             app:layout_constraintTop_toTopOf="@+id/guidelinehx"
-            app:srcCompat="@drawable/Stued" />
+            app:srcCompat="@drawable/stued" />
 
         <Button
             android:id="@+id/button3"
